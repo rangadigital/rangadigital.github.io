@@ -18,6 +18,8 @@
             --success: #238636;
         }
 
+        { box-sizing: border-box; }
+        
         body { 
             background: var(--bg-color); 
             color: var(--text-main); 
@@ -49,7 +51,7 @@
         }
 
         .container { 
-            max-width: 850px; 
+            max-width: 760px; 
             margin: auto; 
             padding: 40px 20px; 
             text-align: center;
@@ -436,7 +438,7 @@ public class RpgItem : ScriptableObject
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var rawText = document.getElementById('raw-docs').innerText;
+        var rawText = document.getElementById('raw-docs').textContent;
         var htmlContent = marked.parse(rawText);
         document.getElementById('docs-content').innerHTML = htmlContent;
     });
