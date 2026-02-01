@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranga Digital | Unity Asset Store</title>
+    
+    <link rel="icon" type="image/png" href="RDICON.png">
+
     <style>
         :root {
             --bg-color: #0b0e14;
@@ -11,6 +14,7 @@
             --text-main: #ffffff;
             --text-dim: #a0a0a0;
         }
+
         body { 
             background: var(--bg-color); 
             color: var(--text-main); 
@@ -21,20 +25,41 @@
             flex-direction: column;
             min-height: 100vh;
         }
+
         nav {
-            padding: 20px;
+            padding: 15px 20px;
             text-align: center;
             border-bottom: 1px solid #1f2633;
+            background: rgba(11, 14, 20, 0.8);
+            backdrop-filter: blur(5px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
+
+        .logo {
+            height: 50px; /* Adjust height to your liking */
+            width: auto;
+            vertical-align: middle;
+            transition: transform 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
         .container { 
             max-width: 800px; 
             margin: auto; 
             padding: 40px 20px; 
             text-align: center;
         }
+
         h1 { color: var(--accent-color); font-size: 2.5rem; margin-bottom: 10px; }
         p { color: var(--text-dim); font-size: 1.1rem; }
+
         .section { margin-top: 60px; padding-top: 40px; border-top: 1px solid #1f2633; text-align: left; }
+        
         .btn { 
             display: inline-block;
             background: var(--accent-color); 
@@ -43,25 +68,33 @@
             text-decoration: none; 
             border-radius: 4px; 
             font-weight: bold;
-            transition: opacity 0.2s;
+            transition: background 0.2s, opacity 0.2s;
             margin-top: 20px;
         }
-        .btn:hover { opacity: 0.8; }
+
+        .btn:hover { 
+            opacity: 0.9;
+            background: #4a90e2; 
+        }
+
         footer { 
             margin-top: auto; 
-            padding: 20px; 
+            padding: 30px; 
             font-size: 0.8rem; 
             color: #444; 
             text-align: center; 
         }
+
         code { color: var(--accent-color); }
     </style>
 </head>
 <body>
 
-<nav>
-    <img src="RDICON.png" alt="Ranga Digital Logo" class="logo">
-</nav>
+    <nav>
+        <a href="/">
+            <img src="RDICON.png" alt="Ranga Digital Logo" class="logo">
+        </a>
+    </nav>
 
     <div class="container">
         <h1>High-Quality Unity Assets</h1>
