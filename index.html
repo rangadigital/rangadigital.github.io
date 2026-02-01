@@ -436,9 +436,9 @@ public class RpgItem : ScriptableObject
     
     </script>
 
-    <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
-        var rawText = document.getElementById('raw-markdown-text').innerText;
+        var rawText = document.getElementById('raw-docs').innerText;
         var htmlContent = marked.parse(rawText);
         document.getElementById('docs-content').innerHTML = htmlContent;
     });
