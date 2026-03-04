@@ -35,13 +35,17 @@
         /* Carousel Styling */
         .carousel-container {
             position: relative;
-            width: 100%;        
-            max-width: 720px; 
+            width: 100%;
+            max-width: 720px;
+            height: 450px; /* Setting a fixed height prevents layout shifts */
             margin: 30px auto;
-            border-radius: 8px;
-            border: 1px solid #30363d;
-            overflow: hidden;
             background: #000;
+            display: flex;
+            align-items: center; /* Vertical centering */
+            justify-content: center; /* Horizontal centering */
+            overflow: hidden;
+            border: 1px solid #30363d;
+            border-radius: 8px;
         }
         
         .carousel-img {
