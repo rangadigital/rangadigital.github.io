@@ -45,10 +45,12 @@
         }
         
         .carousel-img {
-            width: 100%;
-            height: auto;
             display: none;
-            vertical-align: middle; 
+            max-width: 100%; /* Don't grow larger than container */
+            max-height: 500px; /* Optional cap on height */
+            width: auto;     /* Stay at natural width */
+            height: auto;    /* Stay at natural height */
+            margin: 0 auto;  /* Center it horizontally */
         }
         
         .carousel-img.active {
