@@ -55,11 +55,34 @@
             width: auto;     /* Stay at natural width */
             height: auto;    /* Stay at natural height */
             margin: 0 auto;  /* Center it horizontally */
+            cursor: zoom-in; /* Shows the user it's clickable */
+            transition: transform 0.3s ease; /* Smooth transition */
         }
         
         .carousel-img.active {
             display: block;
         }
+
+        .carousel-container:has(.zoomed) .carousel-btn {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+}
+
+.carousel-img.zoomed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain; /* Shows full size without cropping */
+    z-index: 2000; /* Above the Nav bar */
+    background: rgba(0, 0, 0, 0.9); /* Darken background */
+    cursor: zoom-out;
+    margin: 0;
+    padding: 20px;
+}
         
         .carousel-btn {
             position: absolute;
@@ -679,6 +702,28 @@ public class MyCustomRule : SentinelRule, IFixable
         // Show new
         images[activeIndex].classList.add('active');
     }
+
+    document.addEventListener('click', function (e) {
+        // 1. If user clicks a carousel image, toggle zoom
+        if (e.target.classList.contains('carousel-img')) {
+            e.target.classList.toggle('zoomed');
+            
+            // Optional: Prevent scrolling the page while zoomed
+            if (e.target.classList.contains('zoomed')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+            return;
+        }
+    
+        // 2. If user clicks anywhere else while an image is zoomed, close the zoom
+        const zoomedImg = document.querySelector('.carousel-img.zoomed');
+        if (zoomedImg && e.target !== zoomedImg) {
+            zoomedImg.classList.remove('zoomed');
+            document.body.style.overflow = '';
+        }
+    });
     
     // Updated Multi-Doc Parser
     document.addEventListener('DOMContentLoaded', function() {
