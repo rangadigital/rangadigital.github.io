@@ -211,80 +211,236 @@
 
     <footer>&copy; 2026 Ranga Digital. Optimized for the Unity 6 Engine.</footer>
 
-    <script id="raw-docs" type="text/plain">
-# ScriptableObject Architect: Official User Manual
+        <script id="raw-docs" type="text/plain">
 
-**Version:** 1.0 (Production)  
+        # ScriptableObject Architect: Official User Manual
+
+**Version:** 1.0 (Production)
 **Tools Path:** `Tools > ScriptableObject Architect`
 
 ---
 
+## Table of Contents
+1.  [Introduction](#1-introduction)
+2.  [Interface Overview](#2-interface-overview)
+3.  [Working with Data](#3-working-with-data)
+4.  [Advanced Search Engine](#4-advanced-search-engine)
+5.  [Batch Operations (Renaming & Mass Editing)](#5-batch-operations)
+6.  [Import / Export Pipeline](#6-import--export-pipeline)
+7.  [Developer Guide (Validation & Visuals)](#7-developer-guide)
+
+---
+
+<a name="1-introduction"></a>
 ## 1. Introduction
 ScriptableObject Architect (SOA) is a spreadsheet-style editor for Unity data. It replaces the slow workflow of selecting assets one-by-one in the Inspector with a unified, high-performance grid view.
 
+**Key Features:**
+* **Live Editing:** Changes are serialized immediately and support Unity's Undo system (`Ctrl+Z`).
+* **Visual Safety:** Instant red feedback for invalid data.
+* **Mass Management:** Rename, Duplicate, or Edit hundreds of items in seconds.
+
 ---
 
+<a name="2-interface-overview"></a>
 ## 2. Interface Overview
 
 ### The Toolbar
-* **Asset Type (Dropdown):** Selects which ScriptableObject class to edit.
-* **Create New:** Creates a new `.asset` file.
-* **Search Bar:** Supports simple name matching and Advanced Query Syntax.
-* **Help (?):** Quick reference guide for search operators.
+* **Asset Type (Dropdown):** Selects which ScriptableObject class to edit (e.g., `RpgItem`).
+    * *Note:* Automatically finds all concrete (non-abstract) ScriptableObjects in your project.
+* **Create New (Green Button):** Creates a new `.asset` file of the selected type. You will be prompted to choose a save location.
+* **Search Bar:** Filters the grid. Supports simple name matching and [Advanced Query Syntax](#4-advanced-search-engine).
+* **Help (?):** Displays a quick reference guide for search operators.
+* **Tools Menu (Export/Import):** Access the CSV/JSON pipeline.
 
 ### The Grid
 * **Row:** Represents one Asset file on disk.
-* **Column:** Represents a serialized field in your script.
+* **Column:** Represents a serialized field (variable) in your script (e.g., `id`, `goldValue`).
+* **Status Bar:** Displays the total count of loaded assets.
 
 ---
 
+<a name="3-working-with-data"></a>
 ## 3. Working with Data
 
 ### Navigation & Interaction
 * **Edit:** Click any cell to edit.
-* **Commit:** Press `Enter` or click away.
-* **Shortcuts:** `Delete` to remove, `Ctrl+D` to duplicate.
+* **Commit:** Press `Enter` or click away to save changes.
+* **Selection:**
+    * `Click`: Select single row.
+    * `Ctrl+Click` (Cmd+Click): Select multiple individual rows.
+    * `Shift+Click`: Select a range of rows.
+* **Shortcuts:**
+    * `Delete` / `Backspace`: Deletes selected assets (with confirmation).
+    * `Ctrl+D`: Duplicates selected assets.
 
 ### Visual Feedback Systems
-1. **Validation (Red Background):** Cell turns **Red** if data is invalid based on your code rules.
-2. **Range Bars:** Visual progress bars for fields using the `[Range]` attribute.
-3. **Hover Previews:** Hover over assets to see high-res previews of Sprites, Audio, or Prefabs.
+SOA provides context-aware visuals to help you balance data faster.
+
+1.  **Validation (Red Background):**
+    * If a cell turns **Red**, the data is invalid based on your code rules.
+    * **Example:** In `RpgItem`, if `goldValue` is set to `-10`, the cell turns red.
+    * **Action:** Hover over the red cell to read the specific error message (e.g., *"Gold value cannot be negative!"*).
+
+2.  **Range Bars (Green Progress):**
+    * Number fields with a `[Range(min, max)]` attribute show a faint green bar in the background.
+    * **Example:** The `weight` field (Range 0-10) will show a 50% filled bar if the value is `5.0`.
+
+3.  **Hover Previews:**
+    * Hover your mouse over **Asset Names** or object fields like `icon` (Sprite), `pickupSfx` (AudioClip), or `modelPrefab` (GameObject).
+    * A high-resolution preview popup will appear showing the asset's texture, waveform, or mesh preview.
+
+### Field-Specific Features
+* **Audio Clips:** Click the `►` button next to `pickupSfx` to preview the sound instantly.
+* **Colors:** Click `rarityColor` to open the standard Unity Color Picker.
+* **Vectors:** `spawnOffset` X, Y, and Z values are exposed as individual editable fields.
+* **Lists/Structs:** Fields like `tags` or `passiveBonus` display as a button. Click "Edit..." to open a floating inspector for that complex data.
 
 ---
 
+<a name="4-advanced-search-engine"></a>
 ## 4. Advanced Search Engine
 
+The search bar allows you to query specific fields using C# variable names found in your `RpgItem` class.
+*Note: Searches are Case-Insensitive.*
+
+### Operators
 | Operator | Meaning | Example |
 | :--- | :--- | :--- |
-| `=` | Equal To | `goldValue = 100` |
+| `=` or `==` | Equal To | `goldValue = 100` |
 | `>` | Greater Than | `weight > 5.0` |
 | `<` | Less Than | `weight < 1.0` |
 | `>=` | Greater or Equal | `goldValue >= 500` |
+| `<=` | Less or Equal | `weight <= 10` |
+
+### Data Types
+* **Numbers:** `goldValue > 100` (Find expensive items)
+* **Booleans:** `isQuestItem = true` (Find only quest items)
+* **Strings:** `id = ITEM_001` (Find exact ID match)
+* **Names:** Typing simple text (e.g., `Sword`) searches the **Asset Name** only.
 
 ---
 
+<a name="5-batch-operations"></a>
 ## 5. Batch Operations
-* **Apply to All:** Right-click a cell to overwrite the field for ALL visible rows.
-* **Batch Rename:** Use `{0}`, `{00}`, or `{000}` patterns to number assets.
+
+SOA includes powerful context menus to speed up workflows.
+
+### Cell Context Menu (Right-Click a Data Cell)
+* **Copy:** Copies the value (e.g., a specific `Color` or `AudioClip`) to the clipboard.
+* **Paste:** Pastes value from clipboard (Smart validation prevents pasting wrong types).
+* **Apply to All:** Overwrites this field for **ALL visible rows**.
+    * *Example:* Filter by `isQuestItem = true`, then right-click `rarityColor` and "Apply to All" to make all quest items Yellow.
+* **Granular Apply (Vectors/Colors):**
+    * Right-clicking `spawnOffset` allows you to "Apply Y to All" (e.g., fixing the height for all items while keeping X/Z random).
+
+### Row Context Menu (Right-Click the "Asset Name")
+* **Batch Rename Selected:** Opens the Batch Renamer tool for the currently selected rows.
+
+### Batch Renaming Syntax
+The renamer uses patterns to automatically number your assets.
+* **`{0}`** = 1, 2, 3
+* **`{00}`** = 01, 02, 03
+* **`{000}`** = 001, 002, 003
+
+**Example:**
+* Pattern: `RPG_Item_{000}`
+* Result: `RPG_Item_001`, `RPG_Item_002`...
+
+> **⚠️ Warning:** Renaming is a disk operation. It **cannot** be undone with `Ctrl+Z`.
 
 ---
 
+<a name="6-import--export-pipeline"></a>
 ## 6. Import / Export Pipeline
-* **Exporting:** Click **Export > Export to CSV**.
-* **Importing:** Click **Import > Import from CSV**. Verified by field name and type.
+
+Use this to edit data in Excel, Google Sheets, or other external tools.
+
+### Exporting
+1.  Click **Export > Export to CSV**.
+2.  Choose a filename.
+3.  The CSV will contain a header row with variable names (`id`, `goldValue`, `weight`, etc.).
+    * **`AssetName`** is the Primary Key. **Do not rename this column.**
+
+### Importing
+1.  Click **Import > Import from CSV**.
+2.  Select your file.
+3.  SOA will match rows based on the **`AssetName`** column.
+4.  It will verify field names and types before overwriting data in Unity.
 
 ---
 
-## 7. Developer Guide (Validation)
+<a name="7-developer-guide"></a>
+## 7. Developer Guide (Validation & Visuals)
 
-Add the namespace: `using RangaDigital.SOArchitect.Runtime;`
+To unlock the full power of SOA, add attributes to your `RpgItem` script.
 
+### Namespace
+Always include the namespace at the top of your file:
+```csharp
+using RangaDigital.SOArchitect.Runtime;
+```
+
+### 1. Validation (`[SOAValidate]`)
+Turns a cell **Red** if logic fails.
+
+**Syntax:** `[SOAValidate("MethodName", "Tooltip Message")]`
+* **MethodName:** Must correspond to a method in the same class that returns `bool`.
+* **Tooltip:** Text shown when hovering over the red cell.
+
+**Example from `RpgItem.cs`:**
 ```csharp
 [SOAValidate("ValidateGold", "Gold value cannot be negative!")]
 [SerializeField] private int goldValue = 50; 
 
-public bool ValidateGold() => goldValue >= 0;
-</script>
+// The validation method must return bool (true = Valid)
+public bool ValidateGold()
+{
+    return goldValue >= 0;
+}
+```
+
+### 2. Range Bars (`[Range]`)
+Adds a visual progress bar behind the number.
+
+**Syntax:** `[Range(min, max)]` (Standard Unity Attribute)
+
+**Example from `RpgItem.cs`:**
+```csharp
+[Range(0f, 10f)]
+public float weight = 1.5f; // Shows a bar filling from 0% to 100%
+```
+
+### 3. Full Implementation Reference (`RpgItem.cs`)
+```csharp
+using UnityEngine;
+using System.Collections.Generic;
+using RangaDigital.SOArchitect.Runtime;
+
+[CreateAssetMenu(fileName = "New RPG Item", menuName = "SO Architect Demos/RPG Item")]
+public class RpgItem : ScriptableObject 
+{
+    [Header("Economy")]
+    // Validation: Turns RED if gold is -1 or lower
+    [SOAValidate("ValidateGold", "Gold value cannot be negative!")]
+    [SerializeField] private int goldValue = 50; 
+    
+    // Visuals: Shows a green progress bar
+    [Range(0f, 10f)]
+    public float weight = 1.5f;
+
+    [Header("Complex Data")]
+    // Validation: Ensures the list isn't empty
+    [SOAValidate("ValidateTags", "Item must have at least one tag.")]
+    public List<string> tags = new List<string> { "Tradeable" };
+
+    // --- Validation Methods ---
+    public bool ValidateGold() => goldValue >= 0;
+    public bool ValidateTags() => tags != null && tags.Count > 0;
+}
+```
+    
+    </script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
