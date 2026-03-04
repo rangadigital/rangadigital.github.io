@@ -32,7 +32,7 @@
             min-height: 100vh;
         }
 
-        /* Carousel Styling */
+/* --- CAROUSEL CORE --- */
         .carousel-container {
             position: relative;
             width: 100%;
@@ -43,7 +43,7 @@
             display: flex;
             align-items: center; 
             justify-content: center; 
-            overflow: hidden;
+            overflow: visible; /* Changed from hidden to allow zoom to "escape" */
             border: 1px solid #30363d;
             border-radius: 8px;
         }
@@ -52,39 +52,38 @@
             display: none;
             max-width: 100%;
             max-height: 100%;
-            width: auto;
-            height: auto;
-            margin: 0 auto;
             cursor: zoom-in;
-            transition: opacity 0.3s ease;
+            transition: transform 0.2s ease-out;
+            z-index: 1;
         }
         
-        /* Force display for either state */
-        .carousel-img.active, 
-        .carousel-img.zoomed {
-            display: block !important;
+        .carousel-img.active {
+            display: block;
         }
 
-        /* Fullscreen Zoom Logic */
+        /* --- ZOOM OVERLAY LOGIC --- */
+        /* We use fixed positioning to act like a Unity Screen-Space Overlay */
         .carousel-img.zoomed {
+            display: block !important;
             position: fixed !important;
             top: 0 !important;
             left: 0 !important;
             width: 100vw !important;
             height: 100vh !important;
-            max-width: 100vw !important; /* Overrides the 720px container limit */
+            max-width: 100vw !important;
             max-height: 100vh !important;
-            object-fit: contain; 
-            z-index: 9999; /* Highest priority */
-            background: rgba(0, 0, 0, 0.95); 
+            object-fit: contain !important;
+            background: rgba(0, 0, 0, 0.95) !important;
+            z-index: 99999 !important; /* Forces it above Nav bars and Cards */
+            padding: 40px;
+            margin: 0 !important;
             cursor: zoom-out;
-            margin: 0;
-            padding: 20px;
         }
 
-        /* Hide buttons when an image is zoomed */
+        /* --- UI HIDING --- */
+        /* Hide buttons only when a zoom is active */
         .carousel-container:has(.zoomed) .carousel-btn {
-            display: none;
+            display: none !important;
         }
         
         .carousel-btn {
@@ -98,7 +97,6 @@
             cursor: pointer;
             font-size: 18px;
             border-radius: 4px;
-            transition: all 0.2s;
             z-index: 10;
         }
         
@@ -705,24 +703,35 @@ public class MyCustomRule : SentinelRule, IFixable
     }
 
     document.addEventListener('click', function (e) {
-        // 1. If user clicks a carousel image, toggle zoom
+        // 1. Logic for clicking the image itself
         if (e.target.classList.contains('carousel-img')) {
-            e.target.classList.toggle('zoomed');
+            const isZooming = e.target.classList.toggle('zoomed');
             
-            // Optional: Prevent scrolling the page while zoomed
-            if (e.target.classList.contains('zoomed')) {
+            // Lock background scroll when zoomed to prevent the page moving behind the image
+            if (isZooming) {
                 document.body.style.overflow = 'hidden';
             } else {
                 document.body.style.overflow = '';
             }
             return;
         }
-    
-        // 2. If user clicks anywhere else while an image is zoomed, close the zoom
+
+        // 2. "Click-off" logic: If the user clicks the dark background/overlay (not the image)
         const zoomedImg = document.querySelector('.carousel-img.zoomed');
         if (zoomedImg && e.target !== zoomedImg) {
             zoomedImg.classList.remove('zoomed');
             document.body.style.overflow = '';
+        }
+    });
+
+    // 3. Accessibility fix: Close the zoom when the Escape key is pressed
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            const zoomedImg = document.querySelector('.carousel-img.zoomed');
+            if (zoomedImg) {
+                zoomedImg.classList.remove('zoomed');
+                document.body.style.overflow = '';
+            }
         }
     });
     
