@@ -653,7 +653,7 @@ public class MyCustomRule : SentinelRule, IFixable
     </script>
 
 <script>
-
+    // Carousel Logic
     function moveSlide(carouselId, direction) {
         const container = document.getElementById(carouselId);
         const images = container.querySelectorAll('.carousel-img');
@@ -671,16 +671,36 @@ public class MyCustomRule : SentinelRule, IFixable
         images[activeIndex].classList.add('active');
     }
     
+    // Updated Multi-Doc Parser
     document.addEventListener('DOMContentLoaded', function() {
-        var raw = document.getElementById('raw-docs').textContent;
-        var target = document.getElementById('docs-content');
-        if (window.marked) {
-            var lines = raw.split('\n');
-            while (lines.length > 0 && lines[0].trim() === '') lines.shift();
-            var indent = lines[0].match(/^\s*/)[0];
-            var clean = lines.map(line => line.startsWith(indent) ? line.substring(indent.length) : line).join('\n');
-            target.innerHTML = marked.parse(clean);
-        }
+        if (!window.marked) return;
+
+        // This ensures BOTH document sections load correctly
+        var docsConfigs = [
+            { source: 'raw-docs', target: 'docs-content' },
+            { source: 'raw-docs-sentinel', target: 'docs-content-sentinel' }
+        ];
+
+        docsConfigs.forEach(function(config) {
+            var rawElement = document.getElementById(config.source);
+            var targetElement = document.getElementById(config.target);
+
+            if (rawElement && targetElement) {
+                var raw = rawElement.textContent;
+                var lines = raw.split('\n');
+                while (lines.length > 0 && lines[0].trim() === '') lines.shift();
+                
+                var indentMatch = lines[0].match(/^\s*/);
+                var indent = indentMatch ? indentMatch[0] : "";
+                
+                var clean = lines.map(line => line.startsWith(indent) ? line.substring(indent.length) : line).join('\n');
+                
+                // Fix for any broken C# markdown blocks to prevent page breaking
+                clean = clean.replace(/using RangaDigital\.AssetSentinel\.Editor\.Rules;/g, "using RangaDigital.AssetSentinel.Editor.Rules;\n```\n");
+                
+                targetElement.innerHTML = marked.parse(clean);
+            }
+        });
     });
 </script>
 </body>
