@@ -33,16 +33,17 @@
         }
 
         /* Carousel Styling */
+/* Carousel Styling */
         .carousel-container {
             position: relative;
             width: 100%;
             max-width: 720px;
-            height: 450px; /* Setting a fixed height prevents layout shifts */
+            height: 450px; 
             margin: 30px auto;
             background: #000;
             display: flex;
-            align-items: center; /* Vertical centering */
-            justify-content: center; /* Horizontal centering */
+            align-items: center; 
+            justify-content: center; 
             overflow: hidden;
             border: 1px solid #30363d;
             border-radius: 8px;
@@ -50,39 +51,43 @@
         
         .carousel-img {
             display: none;
-            max-width: 100%; /* Don't grow larger than container */
-            max-height: 500px; /* Optional cap on height */
-            width: auto;     /* Stay at natural width */
-            height: auto;    /* Stay at natural height */
-            margin: 0 auto;  /* Center it horizontally */
-            cursor: zoom-in; /* Shows the user it's clickable */
-            transition: transform 0.3s ease; /* Smooth transition */
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            margin: 0 auto;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
         }
         
-        .carousel-img.active {
+        /* This ensures the image is visible if it's either active OR zoomed */
+        .carousel-img.active, 
+        .carousel-img.zoomed {
             display: block;
         }
 
+        /* Fullscreen Zoom Logic */
+        .carousel-img.zoomed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            max-width: none;  /* Remove the 100% restriction from base class */
+            max-height: none; /* Remove the 500px restriction from base class */
+            object-fit: contain; 
+            z-index: 2000; 
+            background: rgba(0, 0, 0, 0.95); 
+            cursor: zoom-out;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Hide buttons when an image is zoomed */
         .carousel-container:has(.zoomed) .carousel-btn {
             opacity: 0;
             pointer-events: none;
         }
-
-}
-
-.carousel-img.zoomed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain; /* Shows full size without cropping */
-    z-index: 2000; /* Above the Nav bar */
-    background: rgba(0, 0, 0, 0.9); /* Darken background */
-    cursor: zoom-out;
-    margin: 0;
-    padding: 20px;
-}
         
         .carousel-btn {
             position: absolute;
@@ -96,6 +101,7 @@
             font-size: 18px;
             border-radius: 4px;
             transition: all 0.2s;
+            z-index: 10; /* Ensure buttons stay above images in normal mode */
         }
         
         .carousel-btn:hover { 
