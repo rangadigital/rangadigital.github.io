@@ -32,8 +32,9 @@
             min-height: 100vh;
         }
 
+        /* Fixed Navigation */
         nav {
-            padding: 15px 20px;
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -41,127 +42,102 @@
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid var(--border-color);
-            background: rgba(11, 14, 20, 0.95);
-            backdrop-filter: blur(5px);
+            background: rgba(11, 14, 20, 0.98);
+            backdrop-filter: blur(8px);
         }
 
         .nav-links a {
             color: var(--text-main);
             text-decoration: none;
             margin-left: 25px;
-            font-weight: 500;
+            font-weight: 600;
             transition: color 0.3s;
+            font-size: 0.9rem;
+            text-transform: uppercase;
         }
 
         .nav-links a:hover { color: var(--accent-color); }
 
-        .logo {
-            height: 50px; 
-            width: auto;
-            vertical-align: middle;
-            transition: transform 0.3s ease;
-        }
+        .logo { height: 50px; width: auto; vertical-align: middle; }
 
-        .container { 
-            max-width: 900px; 
-            margin: auto; 
-            padding: 40px 20px; 
-        }
+        .container { max-width: 900px; margin: auto; padding: 40px 20px; }
 
         h1, h2, h3 { color: var(--accent-color); }
         p { color: var(--text-dim); }
 
-        .section { 
-            margin-top: 60px; 
-            padding-top: 40px; 
-            border-top: 1px solid var(--border-color); 
-        }
+        .section { margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--border-color); }
         
+        /* Product UI */
         .product-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 40px;
             margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             text-align: center;
         }
 
         .product-screenshot {
             width: 100%;        
-            max-width: 700px; /* Prevents image from being excessively big */
+            max-width: 720px; 
             height: auto;      
             border-radius: 8px;
             border: 1px solid #30363d;
-            margin: 20px auto 30px auto;
+            margin: 30px auto;
             display: block;
         }
 
         .benefit-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 30px 0;
+            gap: 25px;
+            margin: 40px 0;
             text-align: left;
         }
 
-        .benefit-item h4 {
-            margin: 0 0 10px 0;
-            color: var(--accent-color);
-        }
+        .benefit-item h4 { margin: 0 0 10px 0; color: var(--accent-color); }
 
-        /* Form Styling */
+        /* Support Form */
         .contact-form {
             background: var(--card-bg);
-            padding: 30px;
+            padding: 40px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
-            max-width: 600px;
-            margin: 20px auto;
+            max-width: 650px;
+            margin: 30px auto;
         }
 
         .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 5px; color: var(--text-main); }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; }
         .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: white;
-            border-radius: 6px;
+            width: 100%; padding: 14px; background: var(--bg-color);
+            border: 1px solid var(--border-color); color: white; border-radius: 6px; font-size: 1rem;
         }
 
         .btn { 
-            display: inline-block;
-            background: var(--accent-color); 
-            color: white; 
-            padding: 14px 30px; 
-            text-decoration: none; 
-            border-radius: 6px; 
-            font-weight: bold;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
+            display: inline-block; background: var(--accent-color); color: white; 
+            padding: 16px 40px; text-decoration: none; border-radius: 6px; 
+            font-weight: bold; transition: all 0.2s ease; cursor: pointer; border: none;
         }
 
         .btn-store { background: var(--success); border: 1px solid #3fb950; }
         .btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
-        footer { 
-            margin-top: auto; 
-            padding: 40px; 
-            font-size: 0.85rem; 
-            color: #555; 
-            text-align: center; 
-            border-top: 1px solid var(--border-color);
-        }
+        /* Docs Styling */
+        .docs-container { text-align: left; margin-top: 30px; }
+        .docs-summary { cursor: pointer; color: var(--accent-color); font-weight: bold; padding: 15px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; }
+        .markdown-body { background: #0d1117; padding: 30px; border-radius: 8px; margin-top: 15px; border: 1px solid var(--border-color); }
+        .markdown-body pre { background: #161b22; padding: 15px; border-radius: 6px; overflow-x: auto; border: 1px solid #30363d; }
+        .markdown-body code { font-family: monospace; color: #ff7b72; }
+        .markdown-body table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        .markdown-body th, .markdown-body td { border: 1px solid #30363d; padding: 10px; }
 
-        .docs-container { text-align: left; margin-top: 20px; }
+        footer { padding: 60px 40px; font-size: 0.9rem; color: #555; text-align: center; border-top: 1px solid var(--border-color); }
 
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
             .benefit-grid { grid-template-columns: 1fr; }
-            nav { flex-direction: column; gap: 15px; }
+            nav { flex-direction: column; gap: 20px; }
             .nav-links a { margin: 0 10px; }
         }
     </style>
@@ -169,11 +145,9 @@
 <body>
 
     <nav>
-        <a href="#">
-            <img src="RDICON.png" alt="Ranga Digital Logo" class="logo">
-        </a>
+        <a href="#"><img src="RDICON.png" alt="Ranga Digital" class="logo"></a>
         <div class="nav-links">
-            <a href="#products">Products</a>
+            <a href="#products">Assets</a>
             <a href="#about">About</a>
             <a href="#support">Support</a>
         </div>
@@ -183,9 +157,8 @@
         <section id="products">
             <div class="product-card">
                 <h2>ScriptableObject Architect</h2>
-                <p><strong>The spreadsheet editor Unity forgot to include. Manage your entire game database in one high-performance view.</strong></p>
-                
-                <img src="screenshot.png" alt="ScriptableObject Architect Interface" class="product-screenshot">
+                <p><strong>The spreadsheet editor Unity forgot to include. Manage your game database in one high-performance view.</strong></p>
+                <img src="screenshot.png" alt="ScriptableObject Architect" class="product-screenshot">
 
                 <div class="benefit-grid">
                     <div class="benefit-item">
@@ -194,33 +167,23 @@
                     </div>
                     <div class="benefit-item">
                         <h4>🔍 Advanced Query Engine</h4>
-                        <p>Find exactly what you need with code-like precision. Filter data using syntax like <code>gold > 500</code>.</p>
+                        <p>Find exactly what you need with syntax like <code>gold > 500</code> or <code>weight <= 10.5</code>.</p>
                     </div>
                     <div class="benefit-item">
                         <h4>🛡️ Visual Validation</h4>
-                        <p>Never ship broken data. Define rules in C# and watch cells turn Red instantly when data is invalid.</p>
+                        <p>Never ship broken data. Cells turn <strong>Red</strong> instantly when C# data rules are violated.</p>
                     </div>
                     <div class="benefit-item">
                         <h4>🚀 Batch Operations</h4>
-                        <p>Rename 100 assets using smart patterns, duplicate rows, or export to CSV/JSON.</p>
+                        <p>Rename 100 assets via smart patterns, duplicate rows, or export to CSV/JSON.</p>
                     </div>
                 </div>
 
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; text-align: left;">
-                    <strong>Technical Specs:</strong><br>
-                    • <strong>Unity 6 Ready:</strong> Built on the latest UI Toolkit.<br>
-                    • <strong>Hover Previews:</strong> See Sprites and Prefabs just by hovering.<br>
-                    • <strong>Zero Setup:</strong> Automatically finds all ScriptableObject types.
-                </div>
-
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
                     <a href="https://assetstore.unity.com/packages/slug/359278" class="btn btn-store">View on Unity Asset Store</a>         
-                    
                     <details class="docs-container">
-                        <summary style="cursor: pointer; color: var(--accent-color);">📖 Open User Manual & Documentation</summary>
-                        <div id="docs-content" class="markdown-body" style="background: #0d1117; padding: 20px; border-radius: 8px; margin-top: 10px;">
-                            <p>Loading documentation...</p>
-                        </div>
+                        <summary class="docs-summary">📖 Open User Manual & Technical Documentation</summary>
+                        <div id="docs-content" class="markdown-body"><p>Loading...</p></div>
                     </details>
                 </div>
             </div>
@@ -228,63 +191,113 @@
 
         <section id="about" class="section">
             <h2>About Ranga Digital</h2>
-            <p>Ranga Digital is a specialized Unity development studio focused on creating high-performance editor extensions and architectural tools. With years of experience in Unity game development and C# systems design, we build tools that bridge the gap between technical complexity and designer-friendly workflows.</p>
-            <p>Our goal is to empower developers by reducing "Inspector friction" and providing robust data validation systems that prevent bugs before they happen.</p>
+            <p>Ranga Digital is a Unity development studio specializing in professional-grade editor extensions and data-driven architectural tools. Our focus is on maximizing developer productivity by bridging the gap between technical complexity and designer-friendly workflows.</p>
+            <p>We believe in high-performance tools that provide instant visual feedback, ensuring game databases remain clean, balanced, and error-free throughout the production lifecycle.</p>
         </section>
 
         <section id="support" class="section" style="text-align: center;">
             <h2>Support & Contact</h2>
-            <p>Have a question or need technical support for one of our assets? Fill out the form below or email us directly below.</p>
-            
+            <p>Need technical help or have a feature request? Reach out via the form below or email below.</p>
             <div class="contact-form">
                 <form action="https://formspree.io/f/meelyzel" method="POST">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="_replyto" placeholder="your@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Message</label>
-                        <textarea name="message" rows="5" placeholder="How can we help?" required></textarea>
-                    </div>
-                    <button type="submit" class="btn">Send Message</button>
+                    <div class="form-group"><label>Name</label><input type="text" name="name" required></div>
+                    <div class="form-group"><label>Email</label><input type="email" name="_replyto" required></div>
+                    <div class="form-group"><label>Message</label><textarea name="message" rows="6" required></textarea></div>
+                    <button type="submit" class="btn">Send Support Request</button>
                 </form>
             </div>
         </section>
     </div>
 
-    <footer>
-        &copy; 2026 Ranga Digital. All rights reserved. <br>
-        Optimized for the Unity 6 Engine.
-    </footer>
+    <footer>&copy; 2026 Ranga Digital. Optimized for the Unity 6 Engine.</footer>
 
     <script id="raw-docs" type="text/plain">
-        # ScriptableObject Architect: Official User Manual
-        (Content remains the same as provided...)
-    </script>
+# ScriptableObject Architect: Official User Manual
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var rawContainer = document.getElementById('raw-docs');
-            var targetContainer = document.getElementById('docs-content');
-            if (!rawContainer || !targetContainer) return;
+**Version:** 1.0 (Production)  
+**Tools Path:** `Tools > ScriptableObject Architect`
 
-            var lines = rawContainer.textContent.split('\n');
+---
+
+## 1. Introduction
+ScriptableObject Architect (SOA) is a spreadsheet-style editor for Unity data. It replaces the slow workflow of selecting assets one-by-one in the Inspector with a unified, high-performance grid view.
+
+---
+
+## 2. Interface Overview
+
+### The Toolbar
+* **Asset Type (Dropdown):** Selects which ScriptableObject class to edit.
+* **Create New:** Creates a new `.asset` file.
+* **Search Bar:** Supports simple name matching and Advanced Query Syntax.
+* **Help (?):** Quick reference guide for search operators.
+
+### The Grid
+* **Row:** Represents one Asset file on disk.
+* **Column:** Represents a serialized field in your script.
+
+---
+
+## 3. Working with Data
+
+### Navigation & Interaction
+* **Edit:** Click any cell to edit.
+* **Commit:** Press `Enter` or click away.
+* **Shortcuts:** `Delete` to remove, `Ctrl+D` to duplicate.
+
+### Visual Feedback Systems
+1. **Validation (Red Background):** Cell turns **Red** if data is invalid based on your code rules.
+2. **Range Bars:** Visual progress bars for fields using the `[Range]` attribute.
+3. **Hover Previews:** Hover over assets to see high-res previews of Sprites, Audio, or Prefabs.
+
+---
+
+## 4. Advanced Search Engine
+
+| Operator | Meaning | Example |
+| :--- | :--- | :--- |
+| `=` | Equal To | `goldValue = 100` |
+| `>` | Greater Than | `weight > 5.0` |
+| `<` | Less Than | `weight < 1.0` |
+| `>=` | Greater or Equal | `goldValue >= 500` |
+
+---
+
+## 5. Batch Operations
+* **Apply to All:** Right-click a cell to overwrite the field for ALL visible rows.
+* **Batch Rename:** Use `{0}`, `{00}`, or `{000}` patterns to number assets.
+
+---
+
+## 6. Import / Export Pipeline
+* **Exporting:** Click **Export > Export to CSV**.
+* **Importing:** Click **Import > Import from CSV**. Verified by field name and type.
+
+---
+
+## 7. Developer Guide (Validation)
+
+Add the namespace: `using RangaDigital.SOArchitect.Runtime;`
+
+```csharp
+[SOAValidate("ValidateGold", "Gold value cannot be negative!")]
+[SerializeField] private int goldValue = 50; 
+
+public bool ValidateGold() => goldValue >= 0;
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var raw = document.getElementById('raw-docs').textContent;
+        var target = document.getElementById('docs-content');
+        if (window.marked) {
+            var lines = raw.split('\n');
             while (lines.length > 0 && lines[0].trim() === '') lines.shift();
-            var indentMatch = lines.length > 0 ? lines[0].match(/^\s+/) : null;
-            var indent = indentMatch ? indentMatch[0] : '';
-
-            var cleanText = lines.map(function(line) {
-                return line.startsWith(indent) ? line.substring(indent.length) : line;
-            }).join('\n');
-
-            if (window.marked) {
-                targetContainer.innerHTML = marked.parse(cleanText);
-            }
-        });
-    </script>
+            var indent = lines[0].match(/^\s*/)[0];
+            var clean = lines.map(line => line.startsWith(indent) ? line.substring(indent.length) : line).join('\n');
+            target.innerHTML = marked.parse(clean);
+        }
+    });
+</script>
 </body>
 </html>
