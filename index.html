@@ -210,7 +210,7 @@
                 <h2>ScriptableObject Architect</h2>
                 <p><strong>The spreadsheet editor Unity forgot to include. Manage your game database in one high-performance view.</strong></p>
                 <div class="carousel-container" id="soa-carousel">
-                    <img src="SOA1.png" alt="SOA Screenshot 1" class="carousel-img active">
+                    <img src="SOA1.png"  alt="SOA Screenshot 1" class="carousel-img active">
                     <img src="SOA2.png" alt="SOA Screenshot 2" class="carousel-img">
                     
                     <button class="carousel-btn prev" onclick="moveSlide('soa-carousel', -1)">&#10094;</button>
@@ -532,7 +532,7 @@ public class RpgItem : ScriptableObject
 
     <script id="raw-docs-sentinel" type="text/plain">
 
-        # Asset Sentinel: Official User Manual
+# Asset Sentinel: Official User Manual
 
 **Version:** 1.0 (Production)
 **Platform:** Optimized for Unity 6 (6000.0.x LTS)
@@ -603,12 +603,13 @@ You can easily extend Asset Sentinel to fit your project's specific compliance r
 Always include the Editor Rules namespace in your custom scripts:
 ```csharp
 using RangaDigital.AssetSentinel.Editor.Rules;
-1. Creating a Custom Rule
-Inherit from the SentinelRule base class to define your scanning logic. The tool will automatically discover it using the TypeCache.
+```
 
-Example:
+### 1. Creating a Custom Rule
+Inherit from the `SentinelRule` base class to define your scanning logic. The tool will automatically discover it using the `TypeCache`.
 
-C#
+**Example:**
+```csharp
 using UnityEngine;
 using UnityEditor;
 using RangaDigital.AssetSentinel.Editor.Rules;
@@ -627,12 +628,13 @@ public class MyCustomRule : SentinelRule
         return true; 
     }
 }
-2. Adding a "One-Click Fix"
-Implement the IFixable interface on your custom rule so users can resolve the issue with a single button click in the UI.
+```
 
-Example:
+### 2. Adding a "One-Click Fix"
+Implement the `IFixable` interface on your custom rule so users can resolve the issue with a single button click in the UI.
 
-C#
+**Example:**
+```csharp
 public class MyCustomRule : SentinelRule, IFixable
 {
     public override bool Validate(string assetPath) { /* validation logic */ }
@@ -650,6 +652,7 @@ public class MyCustomRule : SentinelRule, IFixable
         return false;
     }
 }
+```
     </script>
 
 <script>
@@ -694,9 +697,6 @@ public class MyCustomRule : SentinelRule, IFixable
                 var indent = indentMatch ? indentMatch[0] : "";
                 
                 var clean = lines.map(line => line.startsWith(indent) ? line.substring(indent.length) : line).join('\n');
-                
-                // Fix for any broken C# markdown blocks to prevent page breaking
-                clean = clean.replace(/using RangaDigital\.AssetSentinel\.Editor\.Rules;/g, "using RangaDigital.AssetSentinel.Editor.Rules;\n```\n");
                 
                 targetElement.innerHTML = marked.parse(clean);
             }
