@@ -187,11 +187,42 @@
                     </details>
                 </div>
             </div>
+            <div class="product-card">
+                <h2>Asset Sentinel</h2>
+                <p><strong>Lightweight Asset Validation & Compliance. Keep your project clean with zero domain-reload lag.</strong></p>
+                <img src="sentinel-screenshot.png" alt="Asset Sentinel" class="product-screenshot">
+
+                <div class="benefit-grid">
+                    <div class="benefit-item">
+                        <h4>⚡ Asynchronous Scanning</h4>
+                        <p>Scan 1,000 assets in < 2 seconds. Uses C# Tasks to iterate through the AssetDatabase without freezing the Editor UI.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🔍 Search Integration</h4>
+                        <p>Utilize the Unity 6 Search bar to quickly "ping" non-compliant assets or open them directly in the Inspector.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🛡️ Automated Build Guard</h4>
+                        <p>Never ship broken builds. The Pre-process Build Guard blocks compilation automatically if critical errors are detected.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🚀 The "One-Click Fix"</h4>
+                        <p>Rules optionally implement an <code>IFixable</code> interface, allowing you to automatically resolve issues directly from the report window.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                    <details class="docs-container">
+                        <summary class="docs-summary">📖 Open User Manual & Technical Documentation</summary>
+                        <div id="docs-content-sentinel" class="markdown-body"><p>Loading...</p></div>
+                    </details>
+                </div>
+            </div>
         </section>
 
         <section id="about" class="section">
             <h2>About Ranga Digital</h2>
-            <p>at Ranga Digital we specialize in creating professional-grade editor extensions and data-driven architectural tools. Our focus is on maximizing developer productivity by bridging the gap between technical complexity and designer-friendly workflows.</p>
+            <p>At Ranga Digital we specialize in creating professional-grade editor extensions and data-driven architectural tools. Our focus is on maximizing developer productivity by bridging the gap between technical complexity and designer-friendly workflows.</p>
             <p>We believe in high-performance tools that provide instant visual feedback, ensuring game databases remain clean, balanced, and error-free throughout the production lifecycle.</p>
         </section>
 
@@ -440,6 +471,128 @@ public class RpgItem : ScriptableObject
 }
 ```
     
+    </script>
+
+    <script id="raw-docs-sentinel" type="text/plain">
+
+        # Asset Sentinel: Official User Manual
+
+**Version:** 1.0 (Production)
+**Platform:** Optimized for Unity 6 (6000.0.x LTS)
+**Tools Path:** `Window > Asset Sentinel`
+
+---
+
+## Table of Contents
+1.  [Introduction](#1-introduction)
+2.  [Core Features](#2-core-features)
+3.  [Included Rules](#3-included-rules)
+4.  [Developer Guide (Custom Rules & Fixes)](#4-developer-guide)
+
+---
+
+<a name="1-introduction"></a>
+## 1. Introduction
+Asset Sentinel is a lightweight, non-intrusive rule-based scanning system. It is designed to identify broken or non-compliant assets in your Unity project, prioritizing scan speed and user experience.
+
+**Key Features:**
+* **Asynchronous Scanning:** Scan thousands of assets in seconds without freezing the Editor.
+* **Automated Safety:** Blocks broken builds and warns you about newly imported bad assets.
+* **Quick Resolutions:** Fix issues directly from the report window.
+
+---
+
+<a name="2-core-features"></a>
+## 2. Core Features
+
+### Asynchronous Scanning
+Asset Sentinel uses C# Tasks to iterate through the `AssetDatabase`. This keeps the Unity Editor UI completely snappy and responsive, capable of scanning over 1,000 assets in under 2 seconds.
+
+### Pre-Build Guard
+Integrates with Unity's `IPreprocessBuildWithReport` callback.
+* **Function:** Runs a synchronous health check before compilation begins.
+* **Action:** If any `Severity.Error` issues are detected (like Missing Scripts), the build is immediately cancelled. The Sentinel window will automatically open to show you the critical errors.
+
+### Passive Post-Processing
+Sentinel automatically runs in the background when you import or move assets.
+* **Function:** Validates newly imported assets against your active rules.
+* **Action:** If a violation is found, it updates the open Sentinel Window or displays a temporary notification directly in the SceneView.
+
+### Unity Search Integration
+Utilizes the Unity 6 `ISearchAccessor` to integrate directly into the Editor's global search.
+* You can quickly ping non-compliant assets or open them in the Inspector using custom search filters.
+
+---
+
+<a name="3-included-rules"></a>
+## 3. Included Rules
+
+Asset Sentinel comes with a robust library of built-in validation rules ready to use:
+
+* **`Rule_MissingScript`**: Detects missing mono scripts on prefabs or GameObjects.
+* **`Rule_AudioMono`**: Checks for incorrect audio import settings (e.g., forcing mobile audio to mono).
+* **`Rule_Texture_POT`**: Enforces Power-Of-Two texture dimensions for memory efficiency.
+* **`Rule_AvoidMeshColliders`**: Flags inappropriate or expensive use of mesh colliders.
+* **`Rule_LargeTexture` & `Rule_HugeFileWarning`**: Identifies massively uncompressed files to keep project size in check.
+
+---
+
+<a name="4-developer-guide"></a>
+## 4. Developer Guide (Custom Rules & Fixes)
+
+You can easily extend Asset Sentinel to fit your project's specific compliance requirements. 
+
+### Namespace
+Always include the Editor Rules namespace in your custom scripts:
+```csharp
+using RangaDigital.AssetSentinel.Editor.Rules;
+1. Creating a Custom Rule
+Inherit from the SentinelRule base class to define your scanning logic. The tool will automatically discover it using the TypeCache.
+
+Example:
+
+C#
+using UnityEngine;
+using UnityEditor;
+using RangaDigital.AssetSentinel.Editor.Rules;
+
+[CreateAssetMenu(fileName = "New Custom Rule", menuName = "Asset Sentinel/Rules/Custom Rule")]
+public class MyCustomRule : SentinelRule 
+{
+    public override bool Validate(string assetPath) 
+    {
+        // Return true if the asset is compliant, false if it violates the rule
+        if (assetPath.EndsWith(".png")) 
+        {
+            TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+            return importer != null && importer.isReadable == false;
+        }
+        return true; 
+    }
+}
+2. Adding a "One-Click Fix"
+Implement the IFixable interface on your custom rule so users can resolve the issue with a single button click in the UI.
+
+Example:
+
+C#
+public class MyCustomRule : SentinelRule, IFixable
+{
+    public override bool Validate(string assetPath) { /* validation logic */ }
+
+    // Returns true if the fix was successful
+    public bool PerformFix(string assetPath) 
+    {
+        TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+        if (importer != null)
+        {
+            importer.isReadable = false;
+            importer.SaveAndReimport();
+            return true; 
+        }
+        return false;
+    }
+}
     </script>
 
 <script>
