@@ -653,6 +653,24 @@ public class MyCustomRule : SentinelRule, IFixable
     </script>
 
 <script>
+
+    function moveSlide(carouselId, direction) {
+        const container = document.getElementById(carouselId);
+        const images = container.querySelectorAll('.carousel-img');
+        let activeIndex = Array.from(images).findIndex(img => img.classList.contains('active'));
+        
+        // Hide current
+        images[activeIndex].classList.remove('active');
+        
+        // Calculate next index
+        activeIndex += direction;
+        if (activeIndex >= images.length) activeIndex = 0;
+        if (activeIndex < 0) activeIndex = images.length - 1;
+        
+        // Show new
+        images[activeIndex].classList.add('active');
+    }
+    
     document.addEventListener('DOMContentLoaded', function() {
         var raw = document.getElementById('raw-docs').textContent;
         var target = document.getElementById('docs-content');
