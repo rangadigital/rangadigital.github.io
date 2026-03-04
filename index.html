@@ -32,6 +32,50 @@
             min-height: 100vh;
         }
 
+        /* Carousel Styling */
+        .carousel-container {
+            position: relative;
+            width: 100%;        
+            max-width: 720px; 
+            margin: 30px auto;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .carousel-img {
+            width: 100%;
+            height: auto;
+            display: none;
+            vertical-align: middle; 
+        }
+        
+        .carousel-img.active {
+            display: block;
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(11, 14, 20, 0.8);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .carousel-btn:hover { 
+            background: var(--accent-color); 
+        }
+        
+        .carousel-btn.prev { left: 10px; }
+        .carousel-btn.next { right: 10px; }
+
         /* Fixed Navigation */
         nav {
             padding: 15px 30px;
@@ -165,7 +209,13 @@
             <div class="product-card">
                 <h2>ScriptableObject Architect</h2>
                 <p><strong>The spreadsheet editor Unity forgot to include. Manage your game database in one high-performance view.</strong></p>
-                <img src="SOASplash.png" alt="ScriptableObject Architect" class="product-screenshot">
+                <div class="carousel-container" id="soa-carousel">
+                    <img src="SOA1.png" alt="SOA Screenshot 1" class="carousel-img active">
+                    <img src="SOA2.png" alt="SOA Screenshot 2" class="carousel-img">
+                    
+                    <button class="carousel-btn prev" onclick="moveSlide('soa-carousel', -1)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveSlide('soa-carousel', 1)">&#10095;</button>
+                </div>
 
                 <div class="benefit-grid">
                     <div class="benefit-item">
@@ -197,7 +247,13 @@
             <div class="product-card">
                 <h2>Asset Sentinel</h2>
                 <p><strong>Lightweight Asset Validation & Compliance. Keep your project clean with zero domain-reload lag.</strong></p>
-                <img src="asset sentinel splash.png" alt="Asset Sentinel" class="product-screenshot">
+                <div class="carousel-container" id="as-carousel">
+                    <img src="AS1.png" alt="AS Screenshot 1" class="carousel-img active">
+                    <img src="AS2.png" alt="AS Screenshot 2" class="carousel-img">
+                    
+                    <button class="carousel-btn prev" onclick="moveSlide('as-carousel', -1)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveSlide('as-carousel', 1)">&#10095;</button>
+                </div>
 
                 <div class="benefit-grid">
                     <div class="benefit-item">
