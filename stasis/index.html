@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stasis — Production-grade save/load for Unity 6. AES-256-GCM encryption, source-generated serialization, schema migration, and a full editor toolset.">
+    <title>Stasis Save System — Ranga Digital</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(93, 173, 226, 0.2);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo { font-size: 1.5rem; font-weight: bold; color: #5dade2; text-decoration: none; }
+        nav { display: flex; gap: 2rem; }
+        nav a { color: #e0e0e0; text-decoration: none; transition: color 0.3s; }
+        nav a:hover { color: #5dade2; }
+
+        .hero {
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: rgba(93, 173, 226, 0.15);
+            border: 1px solid rgba(93, 173, 226, 0.3);
+            color: #5dade2;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #5dade2;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #b0b0b0;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary { background: #5dade2; color: #0f0f0f; }
+        .btn-primary:hover { background: #7ec8e3; transform: translateY(-2px); }
+        .btn-outline { border: 1px solid rgba(93, 173, 226, 0.4); color: #5dade2; background: transparent; }
+        .btn-outline:hover { background: rgba(93, 173, 226, 0.1); transform: translateY(-2px); }
+
+        section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+
+        h2 { font-size: 1.8rem; color: #5dade2; margin-bottom: 2rem; }
+
+        .warning-box {
+            background: rgba(231, 76, 60, 0.08);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 3rem;
+            color: #e0b0b0;
+        }
+        .warning-box strong { color: #e07070; }
+
+        /* Quick start */
+        .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+        .step { display: flex; gap: 1.25rem; align-items: flex-start; }
+        .step-num {
+            flex-shrink: 0;
+            width: 2rem; height: 2rem;
+            background: rgba(93, 173, 226, 0.15);
+            border: 1px solid rgba(93, 173, 226, 0.3);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #5dade2; font-weight: bold; font-size: 0.9rem;
+        }
+        .step-body { flex: 1; }
+        .step-body p { color: #b0b0b0; margin-bottom: 0.75rem; }
+
+        pre {
+            background: rgba(93, 173, 226, 0.05);
+            border: 1px solid rgba(93, 173, 226, 0.15);
+            border-radius: 4px;
+            padding: 1rem 1.25rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            line-height: 1.55;
+        }
+        code { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace; }
+        .kw { color: #7ec8e3; }
+        .cl { color: #a8d8a8; }
+        .st { color: #f0c070; }
+        .cm { color: #606060; }
+
+        /* Feature table */
+        table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        th { text-align: left; padding: 0.6rem 1rem; color: #5dade2; border-bottom: 1px solid rgba(93, 173, 226, 0.3); font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; }
+        td { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(93, 173, 226, 0.08); color: #c0c0c0; font-size: 0.95rem; }
+        tr:hover td { background: rgba(93, 173, 226, 0.04); }
+        td:first-child { color: #e0e0e0; font-weight: 600; white-space: nowrap; }
+
+        /* Changelog */
+        .changelog-entry { margin-bottom: 3rem; }
+        .changelog-entry h3 { font-size: 1.2rem; color: #e0e0e0; margin-bottom: 1.5rem; }
+        .changelog-entry h3 span { color: #5dade2; }
+        .changelog-group { margin-bottom: 1.25rem; }
+        .changelog-group h4 { color: #5dade2; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+        .changelog-group ul { list-style: none; }
+        .changelog-group li { padding: 0.3rem 0 0.3rem 1.25rem; position: relative; color: #c0c0c0; font-size: 0.95rem; }
+        .changelog-group li::before { content: "→"; position: absolute; left: 0; color: #5dade2; }
+        .changelog-group li code { background: rgba(93, 173, 226, 0.1); padding: 0.1em 0.35em; border-radius: 3px; font-size: 0.85em; color: #a0d0f0; }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(93, 173, 226, 0.2);
+            color: #606060;
+            font-size: 0.9rem;
+        }
+        footer a { color: #5dade2; text-decoration: none; }
+
+        .divider { border: none; border-top: 1px solid rgba(93, 173, 226, 0.1); margin: 0; }
+
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 2rem; }
+            header { flex-direction: column; gap: 1rem; }
+            nav { flex-direction: column; gap: 0.5rem; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="https://rangadigital.github.io" class="logo">Ranga Digital</a>
+    <nav>
+        <a href="#quickstart">Quick Start</a>
+        <a href="#features">Features</a>
+        <a href="#changelog">Changelog</a>
+        <a href="https://rangadigital.github.io#support">Support</a>
+    </nav>
+</header>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<div class="hero">
+    <div class="badge">Unity 6 · UPM Package</div>
+    <h1>Stasis Save System</h1>
+    <p>Production-grade save and load for Unity 6. AES-256-GCM encryption, source-generated zero-reflection serialization, schema migration, atomic writes, and a full editor toolset.</p>
+    <div class="btn-group">
+        <a href="Stasis-Complete-Documentation.pdf" class="btn btn-primary">Full Documentation (PDF)</a>
+        <a href="#quickstart" class="btn btn-outline">Quick Start</a>
+        <a href="#changelog" class="btn btn-outline">Changelog</a>
+    </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── Security warning ──────────────────────────────────────────────── -->
+<section>
+    <div class="warning-box">
+        <strong>Security:</strong> Never commit encryption keys to version control. <code>StasisSettings</code> stores your key — exclude it from VCS or inject at runtime via <code>SetRuntimeEncryptionKey()</code>. See Chapter 4 of the PDF for the recommended approach.
+    </div>
+
+<!-- ── Quick Start ───────────────────────────────────────────────────── -->
+    <h2 id="quickstart">Quick Start</h2>
+    <div class="steps">
+
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+                <p>Add <strong>StasisManager</strong> to a GameObject in your scene and assign a <strong>StasisSettings</strong> asset <em>(Assets → Create → RangaDigital → Stasis → Settings)</em>.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+                <p>Mark any <code>MonoBehaviour</code> with <code>[SaveSlot]</code> — the source generator emits <code>StasisSave</code> and <code>StasisLoad</code> at compile time, zero reflection at runtime.</p>
+<pre><code><span class="kw">[SaveSlot]</span>
+<span class="kw">public partial class</span> <span class="cl">PlayerStats</span> : MonoBehaviour
+{
+    <span class="kw">public int</span>  Health = 100;
+    <span class="kw">public int</span>  Score  = 0;
+    <span class="kw">public int</span>  Level  = 1;
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+                <p>Add a <strong>StasisIdentity</strong> component to the same GameObject. This assigns a stable GUID so saves survive scene reloads and restarts.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+                <p>Save and load from anywhere:</p>
+<pre><code><span class="kw">await</span> StasisManager.Instance.SaveAsync(<span class="st">"slot-1"</span>);
+<span class="kw">await</span> StasisManager.Instance.LoadAsync(<span class="st">"slot-1"</span>);</code></pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+                <p>Subscribe to events for UI feedback:</p>
+<pre><code>StasisManager.Instance.OnSaveCompleted += slot => Debug.Log(<span class="st">"Saved!"</span>);
+StasisManager.Instance.OnLoadCompleted += slot => Debug.Log(<span class="st">"Loaded!"</span>);</code></pre>
+            </div>
+        </div>
+
+    </div>
+
+    <br>
+    <p style="color:#b0b0b0; margin-bottom:1rem;">For objects not suited to the source generator, implement <code>ISaveable</code> directly:</p>
+<pre><code><span class="kw">public class</span> <span class="cl">Enemy</span> : MonoBehaviour, <span class="cl">ISaveable</span>
+{
+    <span class="kw">public void</span> StasisSave(<span class="cl">SaveSection</span> s) { s.WriteInt32(<span class="st">"hp"</span>, _hp); }
+    <span class="kw">public void</span> StasisLoad(<span class="cl">SaveSection</span> s) { _hp = s.ReadInt32(<span class="st">"hp"</span>, 100); }
+    <span class="kw">public</span> <span class="cl">MigrationMap</span> GetMigrationMap() => <span class="cl">MigrationMap</span>.Empty;
+}</code></pre>
+</section>
+
+<hr class="divider">
+
+<!-- ── Features ─────────────────────────────────────────────────────── -->
+<section id="features">
+    <h2>Features</h2>
+    <table>
+        <thead><tr><th>Category</th><th>Detail</th></tr></thead>
+        <tbody>
+            <tr><td>Serialization</td><td>Source-generated (zero reflection), JSON profile, Binary profile</td></tr>
+            <tr><td>Security</td><td>AES-256-GCM authenticated encryption, HMAC-SHA256 signing, per-save random IV, key rotation utility</td></tr>
+            <tr><td>Compression</td><td>LZ4 (default), GZip, Zstandard with dictionary training</td></tr>
+            <tr><td>Reliability</td><td>Atomic writes — write-to-journal → fsync → rename, <code>.bak</code> rollback on crash</td></tr>
+            <tr><td>Storage</td><td>Multi-slot, configurable paths, platform profiles, rolling backups</td></tr>
+            <tr><td>Spawned objects</td><td><code>SpawnRegistry</code> — save and restore runtime-instantiated objects</td></tr>
+            <tr><td>Migration</td><td><code>MigrationMap</code> + <code>[PreviouslySavedAs]</code> — rename keys across schema versions</td></tr>
+            <tr><td>Auto-save</td><td>Configurable interval, pause, focus-loss, and quit lifecycle hooks</td></tr>
+            <tr><td>Cloud sync</td><td><code>ICloudSaveProvider</code> + HTTP + folder-mirror backends</td></tr>
+            <tr><td>Editor tooling</td><td>Save Inspector, Build Validator, Key Rotation Utility, Schema Diff, EasySave Migration</td></tr>
+            <tr><td>Console</td><td>Bridge templates for PS5, Xbox Series, Nintendo Switch</td></tr>
+            <tr><td>WebGL</td><td>IndexedDB backend, frame-budget yielding, soft-limit inspector warning</td></tr>
+        </tbody>
+    </table>
+
+    <br>
+    <h2 style="margin-top:2.5rem;">Platform Support</h2>
+    <table>
+        <thead><tr><th>Platform</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td>Windows / macOS / Linux</td><td>Fully supported</td><td></td></tr>
+            <tr><td>iOS / Android</td><td>Fully supported</td><td></td></tr>
+            <tr><td>WebGL</td><td>Supported</td><td>Sync-only API; IndexedDB backed</td></tr>
+            <tr><td>PS5 / Xbox / Switch</td><td>Bridge templates</td><td>Implement <code>IStorageBackend</code> with platform SDK</td></tr>
+            <tr><td>IL2CPP</td><td>Required for AES-GCM</td><td>Editor uses AES-CBC fallback (expected, logged)</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<hr class="divider">
+
+<!-- ── Changelog ────────────────────────────────────────────────────── -->
+<section id="changelog">
+    <h2>Changelog</h2>
+
+    <div class="changelog-entry">
+        <h3><span>1.0.0</span> — 2026-04-07 — Initial Release</h3>
+
+        <div class="changelog-group">
+            <h4>Core Pipeline</h4>
+            <ul>
+                <li><code>StasisManager</code> singleton with async <code>SaveAsync</code> / <code>LoadAsync</code></li>
+                <li>Event-driven feedback: <code>OnSaveBegan</code>, <code>OnSaveCompleted</code>, <code>OnLoadBegan</code>, <code>OnLoadCompleted</code>, <code>OnError</code></li>
+                <li>Multi-slot save management with configurable slot names and paths</li>
+                <li>Auto-save with configurable interval and lifecycle hooks</li>
+                <li><code>ISaveable</code> interface for manual save/load integration</li>
+                <li><code>[SaveSlot]</code> attribute — Roslyn source generator, zero reflection at runtime</li>
+                <li><code>SaveSection</code> typed API: <code>WriteInt32</code>, <code>WriteFloat</code>, <code>WriteString</code>, <code>WriteVector3</code>, <code>WriteBool</code>, <code>WriteBytes</code> and symmetrical <code>Read*</code> variants</li>
+            </ul>
+        </div>
+
+        <div class="changelog-group">
+            <h4>Serialization</h4>
+            <ul>
+                <li>Source-generated serializer — no <code>System.Reflection</code> at runtime</li>
+                <li>JSON profile (human-readable), Binary profile (compact, high-performance)</li>
+                <li>Full Unity type support: <code>Vector2/3/4</code>, <code>Quaternion</code>, <code>Color</code>, <code>Rect</code>, <code>Bounds</code>, <code>Matrix4x4</code>, <code>AnimationCurve</code>, <code>Gradient</code>, <code>LayerMask</code></li>
+            </ul>
+        </div>
+
+        <div class="changelog-group">
+            <h4>Security</h4>
+            <ul>
+                <li>AES-256-GCM authenticated encryption (IL2CPP / standalone builds)</li>
+                <li>AES-CBC fallback for Unity Editor / Mono — logged as error (expected)</li>
+                <li>Per-save cryptographically random IV — no IV reuse across saves</li>
+                <li>HMAC-SHA256 save signing with <code>TrustState</code> verification</li>
+                <li><code>SetRuntimeEncryptionKey()</code> for non-VCS key injection</li>
+                <li><code>StasisKeyRotationWindow</code> — re-encrypt saves with a new key</li>
+            </ul>
+        </div>
+
+        <div class="changelog-group">
+            <h4>Storage &amp; Reliability</h4>
+            <ul>
+                <li>Atomic write pipeline: write-to-journal → fsync → rename, <code>.bak</code> rollback on crash</li>
+                <li><code>.meta</code> sidecar for fast slot inspection without decrypting payload</li>
+                <li>Platform-aware storage paths with per-platform profile overrides</li>
+                <li>Chunked storage for large payloads; rolling backups with configurable retention</li>
+                <li>Cloud sync via <code>ICloudSaveProvider</code> + HTTP + folder-mirror backends</li>
+            </ul>
+        </div>
+
+        <div class="changelog-group">
+            <h4>Migration</h4>
+            <ul>
+                <li><code>MigrationMap</code> — declare key renames and value transforms between schema versions</li>
+                <li><code>[PreviouslySavedAs]</code> attribute for field renames</li>
+                <li><code>SchemaFingerprint</code> in save header detects incompatible schema changes before load</li>
+            </ul>
+        </div>
+
+        <div class="changelog-group">
+            <h4>Editor Tooling</h4>
+            <ul>
+                <li>Save Inspector — browse save file contents without running the game</li>
+                <li>Build Validator — blocks Mono release builds when AES-GCM is configured</li>
+                <li>Key Rotation Utility — re-encrypt an entire save directory from one key to another</li>
+                <li>Schema Diff Window, EasySave Migration Window, Diagnostics Window</li>
+            </ul>
+        </div>
+
+        <div class="changelog-group">
+            <h4>Unity Ecosystem Integrations</h4>
+            <ul>
+                <li><code>StasisAnimatorSaveable</code>, <code>StasisRigidbodyStateSaveable</code>, <code>StasisColliderStateSaveable</code></li>
+                <li><code>StasisCharacterControllerSaveable</code>, <code>StasisNavMeshAgentSaveable</code></li>
+                <li><code>StasisAudioSourceSaveable</code>, <code>StasisAudioMixerSnapshotSaveable</code></li>
+                <li><code>StasisParticleSystemSaveable</code>, <code>StasisVisualEffectSaveable</code></li>
+                <li><code>StasisCinemachineCameraSaveable</code>, <code>StasisPlayableDirectorSaveable</code> (Timeline)</li>
+                <li><code>StasisCommonStateSaveable</code> — zero-code Inspector-driven state saving</li>
+                <li><code>StasisVisualScriptingApi</code></li>
+            </ul>
+        </div>
+
+        <div class="changelog-group">
+            <h4>Platform &amp; Console</h4>
+            <ul>
+                <li>Bridge templates for PS5 (PlayStation Network), Xbox Series (Connected Storage), Nintendo Switch</li>
+                <li>WebGL IndexedDB backend with frame-budget yielding and soft-limit inspector warning</li>
+            </ul>
+        </div>
+
+        <div class="changelog-group">
+            <h4>Demo &amp; Beginner Guide</h4>
+            <ul>
+                <li>Three-step beginner progression: zero-code Inspector → manual <code>ISaveable</code> → <code>[SaveSlot]</code></li>
+                <li>UAT prototype — primitives-only playable scene, save/load verified end-to-end</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p><a href="https://rangadigital.github.io">Ranga Digital</a> &nbsp;·&nbsp; Stasis Save System &nbsp;·&nbsp; Copyright &copy; 2026</p>
+</footer>
+
+</body>
+</html>
