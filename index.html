@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranga Digital | Unity Asset Store Publisher</title>
-    
+
     <link rel="icon" type="image/png" href="RDICON.png">
 
     <style>
@@ -20,11 +20,11 @@
         }
 
         * { box-sizing: border-box; scroll-behavior: smooth; }
-        
-        body { 
-            background: var(--bg-color); 
-            color: var(--text-main); 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             margin: 0;
             display: flex;
@@ -34,10 +34,10 @@
 
         .main-hero-logo {
             display: block;
-            width: 350px;       
+            width: 350px;
             height: auto;
-            margin: 40px auto 0 auto; /* Centers horizontally and adds space above */
-            filter: drop-shadow(0 0 10px rgba(93, 173, 226, 0.3)); /* Subtle glow matching your accent color */
+            margin: 40px auto 0 auto;
+            filter: drop-shadow(0 0 10px rgba(93, 173, 226, 0.3));
         }
 
 /* --- CAROUSEL CORE --- */
@@ -45,17 +45,17 @@
             position: relative;
             width: 100%;
             max-width: 720px;
-            height: 450px; 
+            height: 450px;
             margin: 30px auto;
             background: #000;
             display: flex;
-            align-items: center; 
-            justify-content: center; 
-            overflow: visible; /* Changed from hidden to allow zoom to "escape" */
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
             border: 1px solid #30363d;
             border-radius: 8px;
         }
-        
+
         .carousel-img {
             display: none;
             max-width: 100%;
@@ -64,13 +64,11 @@
             transition: transform 0.2s ease-out;
             z-index: 1;
         }
-        
+
         .carousel-img.active {
             display: block;
         }
 
-        /* --- ZOOM OVERLAY LOGIC --- */
-        /* We use fixed positioning to act like a Unity Screen-Space Overlay */
         .carousel-img.zoomed {
             display: block !important;
             position: fixed !important;
@@ -82,18 +80,16 @@
             max-height: 100vh !important;
             object-fit: contain !important;
             background: rgba(0, 0, 0, 0.95) !important;
-            z-index: 99999 !important; /* Forces it above Nav bars and Cards */
+            z-index: 99999 !important;
             padding: 40px;
             margin: 0 !important;
             cursor: zoom-out;
         }
 
-        /* --- UI HIDING --- */
-        /* Hide buttons only when a zoom is active */
         .carousel-container:has(.zoomed) .carousel-btn {
             display: none !important;
         }
-        
+
         .carousel-btn {
             position: absolute;
             top: 50%;
@@ -107,7 +103,7 @@
             border-radius: 4px;
             z-index: 10;
         }
-        
+
         .carousel-btn:hover { background: var(--accent-color); }
         .carousel-btn.prev { left: 10px; }
         .carousel-btn.next { right: 10px; }
@@ -146,7 +142,7 @@
         p { color: var(--text-dim); }
 
         .section { margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--border-color); }
-        
+
         /* Product UI */
         .product-card {
             background: var(--card-bg);
@@ -159,9 +155,9 @@
         }
 
         .product-screenshot {
-            width: 100%;        
-            max-width: 720px; 
-            height: auto;      
+            width: 100%;
+            max-width: 720px;
+            height: auto;
             border-radius: 8px;
             border: 1px solid #30363d;
             margin: 30px auto;
@@ -195,9 +191,9 @@
             border: 1px solid var(--border-color); color: white; border-radius: 6px; font-size: 1rem;
         }
 
-        .btn { 
-            display: inline-block; background: var(--accent-color); color: white; 
-            padding: 16px 40px; text-decoration: none; border-radius: 6px; 
+        .btn {
+            display: inline-block; background: var(--accent-color); color: white;
+            padding: 16px 40px; text-decoration: none; border-radius: 6px;
             font-weight: bold; transition: all 0.2s ease; cursor: pointer; border: none;
         }
 
@@ -239,7 +235,7 @@
             <h2>About Ranga Digital</h2>
             <p>At Ranga Digital we specialize in creating professional-grade editor extensions and data-driven architectural tools. Our focus is on maximizing developer productivity by bridging the gap between technical complexity and designer-friendly workflows.</p>
         </section>
-        
+
         <section id="products">
             <div class="product-card">
                 <h2>ScriptableObject Architect</h2>
@@ -247,7 +243,7 @@
                 <div class="carousel-container" id="soa-carousel">
                     <img src="SOA3.png"  alt="SOA Screenshot 1" class="carousel-img active">
                     <img src="SOA2.png" alt="SOA Screenshot 2" class="carousel-img">
-                    
+
                     <button class="carousel-btn prev" onclick="moveSlide('soa-carousel', -1)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide('soa-carousel', 1)">&#10095;</button>
                 </div>
@@ -272,20 +268,21 @@
                 </div>
 
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-                    <a href="https://assetstore.unity.com/packages/slug/359278" class="btn btn-store">View on Unity Asset Store</a>         
+                    <a href="https://assetstore.unity.com/packages/slug/359278" class="btn btn-store">View on Unity Asset Store</a>
                     <details class="docs-container">
                         <summary class="docs-summary">📖 Open User Manual & Technical Documentation</summary>
                         <div id="docs-content" class="markdown-body"><p>Loading...</p></div>
                     </details>
                 </div>
             </div>
+
             <div class="product-card">
                 <h2>Asset Sentinel</h2>
                 <p><strong>Lightweight Asset Validation & Compliance. Keep your project clean with zero domain-reload lag.</strong></p>
                 <div class="carousel-container" id="as-carousel">
                     <img src="AS3.png" alt="AS Screenshot 1" class="carousel-img active">
                     <img src="AS2.png" alt="AS Screenshot 2" class="carousel-img">
-                    
+
                     <button class="carousel-btn prev" onclick="moveSlide('as-carousel', -1)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide('as-carousel', 1)">&#10095;</button>
                 </div>
@@ -316,8 +313,43 @@
                     </details>
                 </div>
             </div>
+
+            <div class="product-card">
+                <h2>Stasis Save System</h2>
+                <p><strong>Production-grade save and load for Unity 6. AES-256-GCM encryption, source-generated serialization, and crash-safe atomic writes — out of the box.</strong></p>
+
+                <div class="benefit-grid">
+                    <div class="benefit-item">
+                        <h4>🔒 Authenticated Encryption</h4>
+                        <p>AES-256-GCM with a per-save cryptographically random IV and HMAC-SHA256 signing. Corrupt or tampered saves are detected before they can damage game state.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>⚡ Zero-Reflection Serializer</h4>
+                        <p>The <code>[SaveSlot]</code> Roslyn source generator emits save/load code at compile time. No reflection at runtime — correct for IL2CPP and safe from code stripping.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🛡️ Crash-Safe Atomic Writes</h4>
+                        <p>Every save goes through a write-to-journal → fsync → rename pipeline with automatic <code>.bak</code> rollback. A power cut mid-save never corrupts your player's data.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🚀 Full Editor Toolset</h4>
+                        <p>Save Inspector, Build Validator, Key Rotation Utility, Schema Diff, and EasySave migration — all built in. Ship with confidence, debug without guessing.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                        <a href="stasis/" class="btn">Full Documentation</a>
+                        <a href="stasis/Stasis-Complete-Documentation.pdf" class="btn btn-store">Download PDF Guide</a>
+                    </div>
+                    <details class="docs-container">
+                        <summary class="docs-summary">📖 Open Quick Start & Feature Reference</summary>
+                        <div id="docs-content-stasis" class="markdown-body"><p>Loading...</p></div>
+                    </details>
+                </div>
+            </div>
         </section>
-        
+
         <section id="support" class="section" style="text-align: center;">
             <h2>Support & Contact</h2>
             <p>Need technical help or have a feature request? Reach out via the form below.</p>
@@ -514,7 +546,7 @@ Turns a cell **Red** if logic fails.
 **Example from `RpgItem.cs`:**
 ```csharp
 [SOAValidate("ValidateGold", "Gold value cannot be negative!")]
-[SerializeField] private int goldValue = 50; 
+[SerializeField] private int goldValue = 50;
 
 // The validation method must return bool (true = Valid)
 public bool ValidateGold()
@@ -541,13 +573,13 @@ using System.Collections.Generic;
 using RangaDigital.SOArchitect.Runtime;
 
 [CreateAssetMenu(fileName = "New RPG Item", menuName = "SO Architect Demos/RPG Item")]
-public class RpgItem : ScriptableObject 
+public class RpgItem : ScriptableObject
 {
     [Header("Economy")]
     // Validation: Turns RED if gold is -1 or lower
     [SOAValidate("ValidateGold", "Gold value cannot be negative!")]
-    [SerializeField] private int goldValue = 50; 
-    
+    [SerializeField] private int goldValue = 50;
+
     // Visuals: Shows a green progress bar
     [Range(0f, 10f)]
     public float weight = 1.5f;
@@ -562,7 +594,7 @@ public class RpgItem : ScriptableObject
     public bool ValidateTags() => tags != null && tags.Count > 0;
 }
 ```
-    
+
     </script>
 
     <script id="raw-docs-sentinel" type="text/plain">
@@ -632,7 +664,7 @@ Asset Sentinel comes with a robust library of built-in validation rules ready to
 <a name="4-developer-guide"></a>
 ## 4. Developer Guide (Custom Rules & Fixes)
 
-You can easily extend Asset Sentinel to fit your project's specific compliance requirements. 
+You can easily extend Asset Sentinel to fit your project's specific compliance requirements.
 
 ### Namespace
 Always include the Editor Rules namespace in your custom scripts:
@@ -650,17 +682,17 @@ using UnityEditor;
 using RangaDigital.AssetSentinel.Editor.Rules;
 
 [CreateAssetMenu(fileName = "New Custom Rule", menuName = "Asset Sentinel/Rules/Custom Rule")]
-public class MyCustomRule : SentinelRule 
+public class MyCustomRule : SentinelRule
 {
-    public override bool Validate(string assetPath) 
+    public override bool Validate(string assetPath)
     {
         // Return true if the asset is compliant, false if it violates the rule
-        if (assetPath.EndsWith(".png")) 
+        if (assetPath.EndsWith(".png"))
         {
             TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
             return importer != null && importer.isReadable == false;
         }
-        return true; 
+        return true;
     }
 }
 ```
@@ -675,19 +707,152 @@ public class MyCustomRule : SentinelRule, IFixable
     public override bool Validate(string assetPath) { /* validation logic */ }
 
     // Returns true if the fix was successful
-    public bool PerformFix(string assetPath) 
+    public bool PerformFix(string assetPath)
     {
         TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
         if (importer != null)
         {
             importer.isReadable = false;
             importer.SaveAndReimport();
-            return true; 
+            return true;
         }
         return false;
     }
 }
 ```
+    </script>
+
+    <script id="raw-docs-stasis" type="text/plain">
+
+# Stasis Save System: Quick Start & Feature Reference
+
+**Version:** 1.0.0
+**Unity:** 6000.0+  |  **Backend:** IL2CPP recommended (required for AES-256-GCM)
+**Full docs:** [rangadigital.github.io/stasis/](https://rangadigital.github.io/stasis/)
+
+---
+
+## Quick Start (5 steps)
+
+**Step 1 — Add StasisManager**
+
+Create a GameObject in your scene, add the `StasisManager` component, and assign a `StasisSettings` asset *(Assets → Create → RangaDigital → Stasis → Settings)*.
+
+**Step 2 — Mark your data with [SaveSlot]**
+
+The Roslyn source generator reads your fields at compile time and emits `StasisSave` / `StasisLoad` automatically. No reflection at runtime.
+
+```csharp
+[SaveSlot]
+public partial class PlayerStats : MonoBehaviour
+{
+    public int  Health = 100;
+    public int  Score  = 0;
+    public int  Level  = 1;
+
+    [StasisIgnore]          // opt a field out
+    public float _cachedDps;
+
+    [PreviouslySavedAs("xp")]   // field was renamed — migrate old saves
+    public int Experience = 0;
+}
+```
+
+**Step 3 — Add StasisIdentity**
+
+Add a `StasisIdentity` component to the same GameObject. This assigns a stable GUID so saves survive scene reloads and play sessions.
+
+**Step 4 — Save and load**
+
+```csharp
+await StasisManager.Instance.SaveAsync("slot-1");
+await StasisManager.Instance.LoadAsync("slot-1");
+```
+
+**Step 5 — Subscribe to events**
+
+```csharp
+StasisManager.Instance.OnSaveCompleted += slot => ShowToast("Saved!");
+StasisManager.Instance.OnLoadCompleted += slot => ShowToast("Loaded!");
+StasisManager.Instance.OnError         += ex   => ShowToast(ex.Message);
+```
+
+---
+
+## Manual ISaveable (no source generator)
+
+Use this when you need custom serialization logic or want immediate results without waiting for a compile:
+
+```csharp
+public class Enemy : MonoBehaviour, ISaveable
+{
+    private int _hp = 100;
+
+    public void StasisSave(SaveSection s)
+    {
+        s.WriteInt32("hp", _hp);
+        s.WriteVector3("pos", transform.position);
+    }
+
+    public void StasisLoad(SaveSection s)
+    {
+        _hp = s.ReadInt32("hp", 100);
+        transform.position = s.ReadVector3("pos", Vector3.zero);
+    }
+
+    public MigrationMap GetMigrationMap() => MigrationMap.Empty;
+}
+```
+
+---
+
+## Security
+
+> **Never commit encryption keys to version control.**
+
+`StasisSettings` stores your AES key. Two safe approaches:
+
+```csharp
+// Inject at runtime from an environment variable or platform keystore
+StasisManager.Instance.SetRuntimeEncryptionKey(Environment.GetEnvironmentVariable("SAVE_KEY"));
+```
+
+Or exclude the settings asset from VCS using `.gitignore`. See Chapter 4 of the PDF for the full key management guide.
+
+---
+
+## Feature Summary
+
+| Category | Detail |
+| --- | --- |
+| Serialization | `[SaveSlot]` source generator, JSON profile, Binary profile |
+| Security | AES-256-GCM + HMAC-SHA256 signing + per-save random IV + key rotation |
+| Compression | LZ4 (default), GZip, Zstandard |
+| Reliability | Atomic writes — journal → fsync → rename, `.bak` rollback on crash |
+| Storage | Multi-slot, configurable paths, platform profiles, rolling backups |
+| Spawned objects | `SpawnRegistry` — save/restore runtime-instantiated objects |
+| Migration | `MigrationMap` + `[PreviouslySavedAs]` — rename keys across versions |
+| Auto-save | Interval, pause, focus-loss, and quit lifecycle hooks |
+| Cloud sync | `ICloudSaveProvider` + HTTP + folder-mirror backends |
+| Editor tooling | Save Inspector, Build Validator, Key Rotation, Schema Diff, EasySave Migrator |
+| Console | Bridge templates for PS5, Xbox Series, Nintendo Switch |
+| WebGL | IndexedDB backend, frame-budget yielding |
+
+---
+
+## SaveSection API Reference
+
+| Write | Read | Type |
+| --- | --- | --- |
+| `WriteInt32(key, value)` | `ReadInt32(key, default)` | `int` |
+| `WriteFloat(key, value)` | `ReadFloat(key, default)` | `float` |
+| `WriteBool(key, value)` | `ReadBool(key, default)` | `bool` |
+| `WriteString(key, value)` | `ReadString(key, default)` | `string` |
+| `WriteVector3(key, value)` | `ReadVector3(key, default)` | `Vector3` |
+| `WriteQuaternion(key, value)` | `ReadQuaternion(key, default)` | `Quaternion` |
+| `WriteColor(key, value)` | `ReadColor(key, default)` | `Color` |
+| `WriteBytes(key, value)` | `ReadBytes(key, default)` | `byte[]` |
+
     </script>
 
 <script>
@@ -696,34 +861,23 @@ public class MyCustomRule : SentinelRule, IFixable
         const container = document.getElementById(carouselId);
         const images = container.querySelectorAll('.carousel-img');
         let activeIndex = Array.from(images).findIndex(img => img.classList.contains('active'));
-        
-        // Hide current
+
         images[activeIndex].classList.remove('active');
-        
-        // Calculate next index
+
         activeIndex += direction;
         if (activeIndex >= images.length) activeIndex = 0;
         if (activeIndex < 0) activeIndex = images.length - 1;
-        
-        // Show new
+
         images[activeIndex].classList.add('active');
     }
 
     document.addEventListener('click', function (e) {
-        // 1. Logic for clicking the image itself
         if (e.target.classList.contains('carousel-img')) {
             const isZooming = e.target.classList.toggle('zoomed');
-            
-            // Lock background scroll when zoomed to prevent the page moving behind the image
-            if (isZooming) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
+            document.body.style.overflow = isZooming ? 'hidden' : '';
             return;
         }
 
-        // 2. "Click-off" logic: If the user clicks the dark background/overlay (not the image)
         const zoomedImg = document.querySelector('.carousel-img.zoomed');
         if (zoomedImg && e.target !== zoomedImg) {
             zoomedImg.classList.remove('zoomed');
@@ -731,7 +885,6 @@ public class MyCustomRule : SentinelRule, IFixable
         }
     });
 
-    // 3. Accessibility fix: Close the zoom when the Escape key is pressed
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             const zoomedImg = document.querySelector('.carousel-img.zoomed');
@@ -741,15 +894,14 @@ public class MyCustomRule : SentinelRule, IFixable
             }
         }
     });
-    
-    // Updated Multi-Doc Parser
+
     document.addEventListener('DOMContentLoaded', function() {
         if (!window.marked) return;
 
-        // This ensures BOTH document sections load correctly
         var docsConfigs = [
-            { source: 'raw-docs', target: 'docs-content' },
-            { source: 'raw-docs-sentinel', target: 'docs-content-sentinel' }
+            { source: 'raw-docs',         target: 'docs-content' },
+            { source: 'raw-docs-sentinel', target: 'docs-content-sentinel' },
+            { source: 'raw-docs-stasis',   target: 'docs-content-stasis' }
         ];
 
         docsConfigs.forEach(function(config) {
@@ -760,12 +912,12 @@ public class MyCustomRule : SentinelRule, IFixable
                 var raw = rawElement.textContent;
                 var lines = raw.split('\n');
                 while (lines.length > 0 && lines[0].trim() === '') lines.shift();
-                
+
                 var indentMatch = lines[0].match(/^\s*/);
                 var indent = indentMatch ? indentMatch[0] : "";
-                
+
                 var clean = lines.map(line => line.startsWith(indent) ? line.substring(indent.length) : line).join('\n');
-                
+
                 targetElement.innerHTML = marked.parse(clean);
             }
         });
