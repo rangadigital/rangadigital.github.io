@@ -314,41 +314,6 @@
                     </details>
                 </div>
             </div>
-
-            <div class="product-card">
-                <h2>Stasis Save System</h2>
-                <p><strong>Production-grade save and load for Unity 6. AES-256-GCM encryption, source-generated serialization, and crash-safe atomic writes — out of the box.</strong></p>
-
-                <div class="benefit-grid">
-                    <div class="benefit-item">
-                        <h4>Authenticated Encryption</h4>
-                        <p>AES-256-GCM with a per-save cryptographically random IV and HMAC-SHA256 signing. Corrupt or tampered saves are detected before they can damage game state.</p>
-                    </div>
-                    <div class="benefit-item">
-                        <h4>Zero-Reflection Serializer</h4>
-                        <p>The <code>[SaveSlot]</code> Roslyn source generator emits save/load code at compile time. No reflection at runtime — correct for IL2CPP and safe from code stripping.</p>
-                    </div>
-                    <div class="benefit-item">
-                        <h4>Crash-Safe Atomic Writes</h4>
-                        <p>Every save goes through a write-to-journal → fsync → rename pipeline with automatic <code>.bak</code> rollback. A power cut mid-save never corrupts your player's data.</p>
-                    </div>
-                    <div class="benefit-item">
-                        <h4>Full Editor Toolset</h4>
-                        <p>Save Inspector, Build Validator, Key Rotation Utility, Schema Diff, and EasySave migration — all built in. Ship with confidence, debug without guessing.</p>
-                    </div>
-                </div>
-
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-                        <a href="stasis/" class="btn">Full Documentation</a>
-                        <a href="stasis/Stasis-Complete-Documentation.pdf" class="btn btn-store">Download PDF Guide</a>
-                    </div>
-                    <details class="docs-container">
-                        <summary class="docs-summary">Open Quick Start & Feature Reference</summary>
-                        <div id="docs-content-stasis" class="markdown-body"><p>Loading...</p></div>
-                    </details>
-                </div>
-            </div>
         </section>
 
         <section id="support" class="section" style="text-align: center;">
@@ -723,139 +688,6 @@ public class MyCustomRule : SentinelRule, IFixable
 ```
     </script>
 
-    <script id="raw-docs-stasis" type="text/plain">
-
-# Stasis Save System: Quick Start & Feature Reference
-
-**Version:** 1.0.0
-**Unity:** 6000.0+  |  **Backend:** IL2CPP recommended (required for AES-256-GCM)
-**Full docs:** [rangadigital.github.io/stasis/](https://rangadigital.github.io/stasis/)
-
----
-
-## Quick Start (5 steps)
-
-**Step 1 — Add StasisManager**
-
-Create a GameObject in your scene, add the `StasisManager` component, and assign a `StasisSettings` asset *(Assets → Create → RangaDigital → Stasis → Settings)*.
-
-**Step 2 — Mark your data with [SaveSlot]**
-
-The Roslyn source generator reads your fields at compile time and emits `StasisSave` / `StasisLoad` automatically. No reflection at runtime.
-
-```csharp
-[SaveSlot]
-public partial class PlayerStats : MonoBehaviour
-{
-    public int  Health = 100;
-    public int  Score  = 0;
-    public int  Level  = 1;
-
-    [StasisIgnore]          // opt a field out
-    public float _cachedDps;
-
-    [PreviouslySavedAs("xp")]   // field was renamed — migrate old saves
-    public int Experience = 0;
-}
-```
-
-**Step 3 — Add StasisIdentity**
-
-Add a `StasisIdentity` component to the same GameObject. This assigns a stable GUID so saves survive scene reloads and play sessions.
-
-**Step 4 — Save and load**
-
-```csharp
-await StasisManager.Instance.SaveAsync("slot-1");
-await StasisManager.Instance.LoadAsync("slot-1");
-```
-
-**Step 5 — Subscribe to events**
-
-```csharp
-StasisManager.Instance.OnSaveCompleted += slot => ShowToast("Saved!");
-StasisManager.Instance.OnLoadCompleted += slot => ShowToast("Loaded!");
-StasisManager.Instance.OnError         += ex   => ShowToast(ex.Message);
-```
-
----
-
-## Manual ISaveable (no source generator)
-
-Use this when you need custom serialization logic or want immediate results without waiting for a compile:
-
-```csharp
-public class Enemy : MonoBehaviour, ISaveable
-{
-    private int _hp = 100;
-
-    public void StasisSave(SaveSection s)
-    {
-        s.WriteInt32("hp", _hp);
-        s.WriteVector3("pos", transform.position);
-    }
-
-    public void StasisLoad(SaveSection s)
-    {
-        _hp = s.ReadInt32("hp", 100);
-        transform.position = s.ReadVector3("pos", Vector3.zero);
-    }
-
-    public MigrationMap GetMigrationMap() => MigrationMap.Empty;
-}
-```
-
----
-
-## Security
-
-> **Never commit encryption keys to version control.**
-
-`StasisSettings` stores your AES key. Two safe approaches:
-
-```csharp
-// Inject at runtime from an environment variable or platform keystore
-StasisManager.Instance.SetRuntimeEncryptionKey(Environment.GetEnvironmentVariable("SAVE_KEY"));
-```
-
-Or exclude the settings asset from VCS using `.gitignore`. See Chapter 4 of the PDF for the full key management guide.
-
----
-
-## Feature Summary
-
-| Category | Detail |
-| --- | --- |
-| Serialization | `[SaveSlot]` source generator, JSON profile, Binary profile |
-| Security | AES-256-GCM + HMAC-SHA256 signing + per-save random IV + key rotation |
-| Compression | LZ4 (default), GZip, Zstandard |
-| Reliability | Atomic writes — journal → fsync → rename, `.bak` rollback on crash |
-| Storage | Multi-slot, configurable paths, platform profiles, rolling backups |
-| Spawned objects | `SpawnRegistry` — save/restore runtime-instantiated objects |
-| Migration | `MigrationMap` + `[PreviouslySavedAs]` — rename keys across versions |
-| Auto-save | Interval, pause, focus-loss, and quit lifecycle hooks |
-| Cloud sync | `ICloudSaveProvider` + HTTP + folder-mirror backends |
-| Editor tooling | Save Inspector, Build Validator, Key Rotation, Schema Diff, EasySave Migrator |
-| Console | Bridge templates for PS5, Xbox Series, Nintendo Switch |
-| WebGL | IndexedDB backend, frame-budget yielding |
-
----
-
-## SaveSection API Reference
-
-| Write | Read | Type |
-| --- | --- | --- |
-| `WriteInt32(key, value)` | `ReadInt32(key, default)` | `int` |
-| `WriteFloat(key, value)` | `ReadFloat(key, default)` | `float` |
-| `WriteBool(key, value)` | `ReadBool(key, default)` | `bool` |
-| `WriteString(key, value)` | `ReadString(key, default)` | `string` |
-| `WriteVector3(key, value)` | `ReadVector3(key, default)` | `Vector3` |
-| `WriteQuaternion(key, value)` | `ReadQuaternion(key, default)` | `Quaternion` |
-| `WriteColor(key, value)` | `ReadColor(key, default)` | `Color` |
-| `WriteBytes(key, value)` | `ReadBytes(key, default)` | `byte[]` |
-
-    </script>
-
 <script>
     // Carousel Logic
     function moveSlide(carouselId, direction) {
@@ -902,7 +734,6 @@ Or exclude the settings asset from VCS using `.gitignore`. See Chapter 4 of the 
         var docsConfigs = [
             { source: 'raw-docs',         target: 'docs-content' },
             { source: 'raw-docs-sentinel', target: 'docs-content-sentinel' },
-            { source: 'raw-docs-stasis',   target: 'docs-content-stasis' }
         ];
 
         docsConfigs.forEach(function(config) {
