@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="rF-hmU3tl22ejqLktbDTFWGzbAZf0m7rCpEIgEjMyhw" />
     <title>Ranga Digital | Unity Asset Store Publisher</title>
+    <meta name="description" content="Ranga Digital builds professional-grade editor extensions and data-driven architectural tools for Unity 6 — including ScriptableObject Architect, Asset Sentinel and Stasis.">
+    <link rel="canonical" href="https://rangadigital.github.io/">
+    <meta name="google-site-verification" content="rF-hmU3tl22ejqLktbDTFWGzbAZf0m7rCpEIgEjMyhw">
 
-    <link rel="icon" type="image/png" href="RDICON.png">
+    <!-- Social preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Ranga Digital">
+    <meta property="og:title" content="Ranga Digital | Unity Asset Store Publisher">
+    <meta property="og:description" content="Professional-grade editor extensions and data-driven architectural tools for Unity 6.">
+    <meta property="og:url" content="https://rangadigital.github.io/">
+    <meta property="og:image" content="https://rangadigital.github.io/assets/img/logo.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@18.0.7/lib/marked.umd.js"
+            integrity="sha384-7njNzKcJUBdezPGfqUrIFizi2QkXJH0M6wF3o1h9GE/nce6X4YdecMwh31B19yTi"
+            crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 
     <style>
         :root {
@@ -222,7 +236,7 @@
 <body>
 
     <nav>
-        <a href="#"><img src="RDICON.png" alt="Ranga Digital" class="logo"></a>
+        <a href="#"><img src="assets/img/logo.png" alt="Ranga Digital" class="logo"></a>
         <div class="nav-links">
             <a href="#about">About</a>
             <a href="#products">Assets</a>
@@ -231,7 +245,7 @@
     </nav>
 
     <div class="container">
-        <img src="RDICON.png" alt="Ranga Digital Logo" class="main-hero-logo">
+        <img src="assets/img/logo.png" alt="Ranga Digital logo" class="main-hero-logo">
         <section id="about" class="section">
             <h2>About Ranga Digital</h2>
             <p>At Ranga Digital we specialize in creating professional-grade editor extensions and data-driven architectural tools. Our focus is on maximizing developer productivity by bridging the gap between technical complexity and designer-friendly workflows.</p>
@@ -242,8 +256,8 @@
                 <h2>ScriptableObject Architect</h2>
                 <p><strong>The spreadsheet editor Unity forgot to include. Manage your games data in one high-performance view.</strong></p>
                 <div class="carousel-container" id="soa-carousel">
-                    <img src="SOA3.png"  alt="SOA Screenshot 1" class="carousel-img active">
-                    <img src="SOA2.png" alt="SOA Screenshot 2" class="carousel-img">
+                    <img src="assets/img/scriptableobject-architect-01.png" alt="ScriptableObject Architect grid view showing multiple assets edited in a single spreadsheet" class="carousel-img active" loading="lazy">
+                    <img src="assets/img/scriptableobject-architect-02.png" alt="ScriptableObject Architect validation highlighting invalid cells in red" class="carousel-img" loading="lazy">
 
                     <button class="carousel-btn prev" onclick="moveSlide('soa-carousel', -1)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide('soa-carousel', 1)">&#10095;</button>
@@ -281,8 +295,8 @@
                 <h2>Asset Sentinel</h2>
                 <p><strong>Lightweight Asset Validation & Compliance. Keep your project clean with zero domain-reload lag.</strong></p>
                 <div class="carousel-container" id="as-carousel">
-                    <img src="AS3.png" alt="AS Screenshot 1" class="carousel-img active">
-                    <img src="AS2.png" alt="AS Screenshot 2" class="carousel-img">
+                    <img src="assets/img/asset-sentinel-01.png" alt="Asset Sentinel report window listing non-compliant project assets" class="carousel-img active" loading="lazy">
+                    <img src="assets/img/asset-sentinel-02.png" alt="Asset Sentinel rule configuration and one-click fix controls" class="carousel-img" loading="lazy">
 
                     <button class="carousel-btn prev" onclick="moveSlide('as-carousel', -1)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide('as-carousel', 1)">&#10095;</button>
