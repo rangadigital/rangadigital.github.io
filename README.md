@@ -1,6 +1,6 @@
 # rangadigital.github.io
 
-Source for the [Ranga Digital](https://rangadigital.github.io/) website — a static
+Source for the [Ranga Digital](https://rangadigital.github.io/) website, a static
 site published with GitHub Pages.
 
 Ranga Digital builds editor extensions and data-driven architectural tools for
@@ -25,7 +25,7 @@ Unity 6.
 ```
 
 Each page is a self-contained HTML file with its own inline `<style>` block. There
-is no build step, bundler or dependency install — what is committed is what ships.
+is no build step, bundler or dependency install. What is committed is what ships.
 
 ## Local development
 
@@ -47,16 +47,16 @@ Pushing to `main` publishes automatically via GitHub Pages (branch `main`, path
 - Filenames are lowercase `kebab-case`; images are named for what they show
   (`asset-sentinel-01.png`, not `AS3.png`).
 - Shared images live in `assets/img/` and are referenced with relative paths
-  (`assets/img/…` from the root, `../assets/img/…` from a subfolder).
+  (`assets/img/...` from the root, `../assets/img/...` from a subfolder).
 - Every page sets `<title>`, `<meta name="description">` and `<link rel="canonical">`.
 
 ## Notes for future edits
 
 Some paths are referenced externally and must not be renamed or moved:
 
-- `google8083060ec2a3580d.html` — Google Search Console verification; must stay at the
+- `google8083060ec2a3580d.html`: Google Search Console verification; must stay at the
   repository root under this exact name
-- `robots.txt` and `sitemap.xml` — must stay at the root
+- `robots.txt` and `sitemap.xml`: must stay at the root
 
 Add new pages to `sitemap.xml` and update `lastmod` when content changes materially.
 
