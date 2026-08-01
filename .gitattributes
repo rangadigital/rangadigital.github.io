@@ -1,0 +1,7 @@
+# Normalise line endings so checkouts are consistent across machines
+* text=auto eol=lf
+
+# Treat binary assets as binary (no diffing, no EOL conversion)
+*.png binary
+*.jpg binary
+*.pdf binary
