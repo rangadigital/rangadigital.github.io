@@ -11,24 +11,17 @@ Unity 6.
 | URL | Source | Purpose |
 | --- | --- | --- |
 | [`/`](https://rangadigital.github.io/) | `index.html` | Landing page, product overview and support form |
-| [`/stasis/`](https://rangadigital.github.io/stasis/) | `stasis/index.html` | Stasis save system — features, quickstart and changelog |
-| [`/docuvision/`](https://rangadigital.github.io/docuvision/) | `docuvision/index.html` | DocuVision privacy policy |
 
 ## Structure
 
 ```
 .
-├── index.html                        Landing page
+├── index.html            Landing page
 ├── assets/
-│   └── img/                          Shared images, referenced by every page
-├── docuvision/
-│   └── index.html                    DocuVision privacy policy
-├── stasis/
-│   ├── index.html                    Stasis product page
-│   └── Stasis-Complete-Documentation.pdf
-├── robots.txt                        Crawler directives
-├── sitemap.xml                       Sitemap submitted to Google Search Console
-└── google*.html                      Search Console verification token
+│   └── img/              Shared images, referenced by every page
+├── robots.txt            Crawler directives
+├── sitemap.xml           Sitemap submitted to Google Search Console
+└── google*.html          Search Console verification token
 ```
 
 Each page is a self-contained HTML file with its own inline `<style>` block. There
@@ -61,8 +54,6 @@ Pushing to `main` publishes automatically via GitHub Pages (branch `main`, path
 
 Some paths are referenced externally and must not be renamed or moved:
 
-- `/docuvision/` — published as DocuVision's privacy policy URL on its app store listing
-- `/stasis/Stasis-Complete-Documentation.pdf` — linked from Stasis documentation
 - `google8083060ec2a3580d.html` — Google Search Console verification; must stay at the
   repository root under this exact name
 - `robots.txt` and `sitemap.xml` — must stay at the root
