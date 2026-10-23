@@ -82,6 +82,8 @@
     <form action="https://formspree.io/f/meelyzel" method="POST">
         <input type="hidden" name="_subject" value="Campus Clash support">
         <input type="hidden" name="product" value="Campus Clash">
+        <!-- Spam trap: people never see or fill this; Formspree drops submissions that do. -->
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
         <div class="form-group"><label for="name">Name</label><input id="name" type="text" name="name" required></div>
         <div class="form-group"><label for="email">Email</label><input id="email" type="email" name="_replyto" required></div>
         <div class="form-group"><label for="player">Player ID</label><input id="player" type="text" name="player_id" placeholder="From Settings &gt; Support &amp; Privacy"></div>
