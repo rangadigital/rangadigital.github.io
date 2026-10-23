@@ -11,6 +11,13 @@ Unity 6.
 | URL | Source | Purpose |
 | --- | --- | --- |
 | [`/`](https://rangadigital.github.io/) | `index.html` | Landing page, product overview and support form |
+| `/campus-clash/privacy.html` | `campus-clash/privacy.html` | Campus Clash privacy policy (unlisted) |
+| `/campus-clash/terms.html` | `campus-clash/terms.html` | Campus Clash terms of service (unlisted) |
+| `/campus-clash/support.html` | `campus-clash/support.html` | Campus Clash help and support form (unlisted) |
+
+The `campus-clash/` pages are linked only from the game and its Steam page. They are deliberately not linked from
+`index.html`, carry `noindex`, and are left out of `sitemap.xml`. The game points at these exact URLs, so don't
+rename or move them.
 
 ## Structure
 

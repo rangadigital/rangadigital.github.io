@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & support | Campus Clash</title>
+    <meta name="description" content="Get help with Campus Clash.">
+    <link rel="canonical" href="https://rangadigital.github.io/campus-clash/support.html">
+    <!-- Linked only from the game and its Steam page: kept out of search results and the sitemap. -->
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="../assets/img/logo.png">
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --accent-color: #5dade2;
+            --card-bg: #161b22;
+            --border-color: #1f2633;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        main { max-width: 760px; margin: 0 auto; padding: 48px 16px 64px; }
+        h1 { font-size: 2rem; margin: 0 0 4px; }
+        h2 { font-size: 1.2rem; margin: 36px 0 8px; color: var(--accent-color); }
+        p, li { color: #d6d6d6; }
+        ul { padding-left: 22px; }
+        li { margin: 6px 0; }
+        a { color: var(--accent-color); }
+        strong { color: var(--text-main); }
+        .meta { color: var(--text-dim); margin: 0 0 28px; }
+        .nav { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 32px; font-size: 0.95rem; }
+        .nav a { text-decoration: none; }
+        .nav a[aria-current] { color: var(--text-main); font-weight: 600; }
+        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px 22px; margin: 18px 0; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-dim); font-size: 0.95rem; }
+        input, textarea, select {
+            width: 100%; padding: 10px 12px; border-radius: 6px; border: 1px solid var(--border-color);
+            background: var(--bg-color); color: var(--text-main); font: inherit;
+        }
+        .btn {
+            background: var(--accent-color); color: #0b0e14; border: 0; border-radius: 6px;
+            padding: 11px 22px; font: inherit; font-weight: 600; cursor: pointer;
+        }
+        footer { text-align: center; color: var(--text-dim); font-size: 0.9rem; padding: 24px 16px 40px; }
+    </style>
+</head>
+<body>
+<main>
+    <nav class="nav"><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms of service</a><a href="support.html" aria-current="page">Help &amp; support</a></nav>
+    <h1>Help & support</h1>
+    <p class="meta">Campus Clash &middot; Last updated 23 October 2026</p>
+
+    <p>Stuck, lost something, or found a bug? We read every message.</p>
+
+    <div class="card">
+        <strong>Before you write:</strong>
+        <ul>
+            <li><strong>Bug or crash?</strong> Use <strong>Settings &gt; Support &amp; Privacy &gt; Report a bug</strong>
+            in the game. It sends your game log and system details, which helps us fix it much faster.</li>
+            <li><strong>Problem with another player?</strong> Use the report button after the match.</li>
+            <li><strong>Refund?</strong> Refunds are handled by Steam: <a href="https://help.steampowered.com/">Steam
+            Support</a>.</li>
+            <li><strong>Delete your account or download your data?</strong> Both are in Settings &gt; Support &amp;
+            Privacy.</li>
+        </ul>
+    </div>
+
+    <h2>Contact us</h2>
+    <p>Include your player ID (Settings &gt; Support &amp; Privacy &gt; Copy player ID) so we can find your account. We
+    never need your Steam password. Anyone asking for it is not us.</p>
+    <form action="https://formspree.io/f/meelyzel" method="POST">
+        <input type="hidden" name="_subject" value="Campus Clash support">
+        <input type="hidden" name="product" value="Campus Clash">
+        <div class="form-group"><label for="name">Name</label><input id="name" type="text" name="name" required></div>
+        <div class="form-group"><label for="email">Email</label><input id="email" type="email" name="_replyto" required></div>
+        <div class="form-group"><label for="player">Player ID</label><input id="player" type="text" name="player_id" placeholder="From Settings &gt; Support &amp; Privacy"></div>
+        <div class="form-group"><label for="topic">Topic</label>
+            <select id="topic" name="topic">
+                <option>Purchase or missing item</option>
+                <option>Account or sign-in</option>
+                <option>Bug or crash</option>
+                <option>Player report or suspension</option>
+                <option>Privacy or my data</option>
+                <option>Something else</option>
+            </select>
+        </div>
+        <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" rows="6" required></textarea></div>
+        <button type="submit" class="btn">Send</button>
+    </form>
+
+</main>
+<footer>&copy; 2026 Ranga Digital. Campus Clash is a game by Ranga Digital.</footer>
+</body>
+</html>
